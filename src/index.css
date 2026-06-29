@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-primary/20;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom Scrollbar for modern dashboards */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Premium Layout Elements */
+.sidebar-link-active {
+  @apply bg-primary-light text-primary font-medium;
+}
+
+.sidebar-link-inactive {
+  @apply text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors;
+}
+
+/* Glassmorphism details and soft shadows */
+.premium-card {
+  @apply bg-white border border-slate-200/80 rounded-xl shadow-premium hover:shadow-card transition-shadow duration-300;
+}
+
+/* Animated progress circular border */
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* Disable browser default focus ring outlines on SVG segments */
+path:focus,
+.recharts-sector:focus,
+.recharts-curve:focus,
+svg:focus {
+  outline: none !important;
+}
