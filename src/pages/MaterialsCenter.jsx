@@ -48,10 +48,10 @@ export default function MaterialsCenter({ project }) {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'Optimal': return 'bg-green-50 text-green-600 border border-green-150';
-      case 'Low Stock': return 'bg-orange-50 text-orange-600 border border-orange-150 animate-pulse';
-      case 'To Order': return 'bg-red-50 text-red-600 border border-red-150';
-      default: return 'bg-slate-100 text-slate-600';
+      case 'Optimal': return 'bg-timeline-grep/20 text-success border border-green-150';
+      case 'Low Stock': return 'bg-timeline-thinking/20 text-timeline-done border border-orange-150 animate-pulse';
+      case 'To Order': return 'bg-canvas-soft text-error border border-red-150';
+      default: return 'bg-canvas-soft text-body';
     }
   };
 
@@ -60,65 +60,65 @@ export default function MaterialsCenter({ project }) {
       
       {/* Title */}
       <div>
-        <h2 className="text-base font-extrabold text-slate-800">Materials Center</h2>
-        <p className="text-[10px] text-slate-400 font-medium">Core tracking and allocation statistics for physical building resources.</p>
+        <h2 className="text-base font-normal text-ink">Materials Center</h2>
+        <p className="text-[10px] text-muted-soft font-medium">Core tracking and allocation statistics for physical building resources.</p>
       </div>
 
       {/* Summary value cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Total Materials Budget</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(totalBudget)}</h3>
-          <p className="mt-1.5 text-[9px] font-semibold text-slate-400">Baseline material allocation</p>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Total Materials Budget</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(totalBudget)}</h3>
+          <p className="mt-1.5 text-[9px] font-semibold text-muted-soft">Baseline material allocation</p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Purchased Value</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(purchasedValue)}</h3>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Purchased Value</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(purchasedValue)}</h3>
           <p className="mt-1.5 text-[9px] font-bold text-primary">
             {((purchasedValue / totalBudget) * 100).toFixed(1)}% of total budget
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Used Value</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(usedValue)}</h3>
-          <p className="mt-1.5 text-[9px] font-bold text-green-600">
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Used Value</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(usedValue)}</h3>
+          <p className="mt-1.5 text-[9px] font-bold text-success">
             {((usedValue / purchasedValue || 0) * 100).toFixed(1)}% of inventory spent
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Remaining Stock Value</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(remainingValue)}</h3>
-          <p className="mt-1.5 text-[9px] font-bold text-orange-500">
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Remaining Stock Value</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(remainingValue)}</h3>
+          <p className="mt-1.5 text-[9px] font-bold text-timeline-done">
             {((remainingValue / purchasedValue || 0) * 100).toFixed(1)}% in warehouse
           </p>
         </div>
       </div>
 
       {/* Materials List Table */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
+      <div className="rounded-lg border border-hairline bg-surface-card p-5">
         
         {/* Filtering & Search row */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-soft" />
             <input 
               type="text" 
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search materials (e.g. Cement, Steel...)"
-              className="w-full rounded-lg border border-slate-200 pl-9 pr-4 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+              className="w-full rounded-lg border border-hairline pl-9 pr-4 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">Status</span>
+            <span className="text-[10px] font-bold text-muted-soft uppercase">Status</span>
             <select
               value={filterStatus}
               onChange={e => setFilterStatus(e.target.value)}
-              className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs font-semibold text-slate-600 focus:outline-none cursor-pointer"
+              className="rounded-lg border border-hairline bg-surface-card px-2 py-1.5 text-xs font-semibold text-body focus:outline-none cursor-pointer"
             >
               <option value="All">All Statuses</option>
               <option value="Optimal">Optimal</option>
@@ -129,10 +129,10 @@ export default function MaterialsCenter({ project }) {
         </div>
 
         {/* Table representation */}
-        <div className="overflow-x-auto border border-slate-100 rounded-lg">
+        <div className="overflow-x-auto border border-hairline-soft rounded-lg">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold">
+              <tr className="bg-canvas border-b border-hairline text-muted font-bold">
                 <th className="py-2.5 px-4 font-bold text-[10px] uppercase">Material</th>
                 <th className="py-2.5 px-3 font-bold text-[10px] uppercase w-20 text-center">Unit</th>
                 <th className="py-2.5 px-3 font-bold text-[10px] uppercase text-right w-28">Planned Qty</th>
@@ -143,20 +143,20 @@ export default function MaterialsCenter({ project }) {
                 <th className="py-2.5 px-4 font-bold text-[10px] uppercase w-12 text-center"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-hairline-soft font-medium text-ink">
               {filteredMaterials.length > 0 ? (
                 filteredMaterials.map((mat) => (
                   <tr 
                     key={mat.id} 
                     onClick={() => navigate(`/project/${project.id}/materials/${mat.id}`)}
-                    className="hover:bg-slate-50/50 cursor-pointer transition-colors"
+                    className="hover:bg-canvas/50 cursor-pointer transition-colors"
                   >
-                    <td className="py-3 px-4 font-bold text-slate-800">{mat.name}</td>
-                    <td className="py-3 px-3 text-center text-slate-400 font-semibold">{mat.unit}</td>
+                    <td className="py-3 px-4 font-semibold text-ink">{mat.name}</td>
+                    <td className="py-3 px-3 text-center text-muted-soft font-semibold">{mat.unit}</td>
                     <td className="py-3 px-3 text-right">{Number(mat.planned || 0).toLocaleString()}</td>
-                    <td className="py-3 px-3 text-right text-slate-800 font-semibold">{Number(mat.purchased || 0).toLocaleString()}</td>
-                    <td className="py-3 px-3 text-right text-slate-800 font-semibold">{Number(mat.used || 0).toLocaleString()}</td>
-                    <td className={`py-3 px-3 text-right font-bold ${mat.remaining < 200 && mat.remaining > 0 ? 'text-orange-500' : 'text-slate-800'}`}>
+                    <td className="py-3 px-3 text-right text-ink font-semibold">{Number(mat.purchased || 0).toLocaleString()}</td>
+                    <td className="py-3 px-3 text-right text-ink font-semibold">{Number(mat.used || 0).toLocaleString()}</td>
+                    <td className={`py-3 px-3 text-right font-bold ${mat.remaining < 200 && mat.remaining > 0 ? 'text-timeline-done' : 'text-ink'}`}>
                       {Number(mat.remaining || 0).toLocaleString()}
                     </td>
                     <td className="py-3 px-3 text-center">
@@ -165,13 +165,13 @@ export default function MaterialsCenter({ project }) {
                       </span>
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <ArrowRight className="h-4 w-4 text-slate-300 group-hover:text-primary transition-colors" />
+                      <ArrowRight className="h-4 w-4 text-muted-soft group-hover:text-primary transition-colors" />
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="py-8 text-center text-slate-455">No materials matching filters.</td>
+                  <td colSpan="8" className="py-8 text-center text-muted-soft">No materials matching filters.</td>
                 </tr>
               )}
             </tbody>

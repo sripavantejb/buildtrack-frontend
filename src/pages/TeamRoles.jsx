@@ -196,8 +196,8 @@ export default function TeamRoles({ project }) {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-extrabold text-slate-800">Team & Roles</h2>
-          <p className="text-[10px] text-slate-400 font-medium">Manage project members, access levels, and invite collaborators.</p>
+          <h2 className="text-base font-normal text-ink">Team & Roles</h2>
+          <p className="text-[10px] text-muted-soft font-medium">Manage project members, access levels, and invite collaborators.</p>
         </div>
         
         {canManage && (
@@ -214,7 +214,7 @@ export default function TeamRoles({ project }) {
               setAddMode(unassignedCompanyUsers.length > 0 ? 'assign' : 'create');
               setShowAddModal(true);
             }}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
           >
             <Plus className="h-4 w-4" />
             <span>Manage Team</span>
@@ -223,21 +223,21 @@ export default function TeamRoles({ project }) {
       </div>
 
       {error && (
-        <div className="rounded-lg bg-red-50 border border-red-100 p-3.5 text-xs font-semibold text-red-600">
+        <div className="rounded-lg bg-canvas-soft border border-hairline p-3.5 text-xs font-semibold text-error">
           {error}
         </div>
       )}
 
       {/* Members Listing grid */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
-        <h4 className="text-xs font-bold text-slate-800 mb-4 font-sans">Active Collaborators</h4>
+      <div className="rounded-lg border border-hairline bg-surface-card p-5">
+        <h4 className="text-xs font-semibold text-ink mb-4 font-sans">Active Collaborators</h4>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {activeMembers.map((member) => (
             <div 
               key={member.id} 
-              className={`rounded-xl border p-4 shadow-premium flex flex-col justify-between transition-opacity ${
-                !member.isActive ? 'opacity-65 border-slate-200 bg-slate-50/50' : 'border-slate-200 bg-white'
+              className={`rounded-lg border p-4 flex flex-col justify-between transition-opacity ${
+                !member.isActive ? 'opacity-65 border-hairline bg-canvas/50' : 'border-hairline bg-surface-card'
               }`}
             >
               <div className="flex items-start justify-between">
@@ -245,16 +245,16 @@ export default function TeamRoles({ project }) {
                   <img 
                     src={member.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"} 
                     alt={member.name} 
-                    className="h-10 w-10 rounded-full object-cover border border-slate-100"
+                    className="h-10 w-10 rounded-full object-cover border border-hairline-soft"
                   />
                   <div>
-                    <h5 className="text-xs font-bold text-slate-800 leading-snug">{member.name}</h5>
+                    <h5 className="text-xs font-semibold text-ink leading-snug">{member.name}</h5>
                     <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className={`rounded px-1.5 py-0.2 text-[8px] font-extrabold uppercase tracking-wide ${
+                      <span className={`rounded px-1.5 py-0.2 text-[8px] font-normal uppercase tracking-wide ${
                         member.role === 'Platform Owner' ? 'bg-purple-50 text-purple-650' :
-                        member.role === 'Super Admin' ? 'bg-indigo-50 text-indigo-650' :
-                        member.role === 'Manager' ? 'bg-blue-50 text-blue-650' :
-                        member.role === 'Site Manager' ? 'bg-amber-50 text-amber-650' : 'bg-slate-100 text-slate-655'
+                        member.role === 'Super Admin' ? 'bg-canvas-soft text-primary' :
+                        member.role === 'Manager' ? 'bg-timeline-read/20 text-blue-650' :
+                        member.role === 'Site Manager' ? 'bg-timeline-thinking/20 text-timeline-done' : 'bg-canvas-soft text-body'
                       }`}>
                         {member.role === 'Super Admin' ? 'Company Admin' : member.role}
                       </span>
@@ -262,15 +262,15 @@ export default function TeamRoles({ project }) {
                   </div>
                 </div>
                 <span className={`rounded px-1.5 py-0.5 text-[8px] font-bold ${
-                  member.isActive ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-slate-100 text-slate-400'
+                  member.isActive ? 'bg-timeline-grep/20 text-success border border-hairline' : 'bg-canvas-soft text-muted-soft'
                 }`}>
                   {member.isActive ? 'Active' : 'Inactive'}
                 </span>
               </div>
 
-              <div className="mt-5 border-t border-slate-100 pt-3.5 flex items-center justify-between text-[10px] font-semibold text-slate-500">
+              <div className="mt-5 border-t border-hairline-soft pt-3.5 flex items-center justify-between text-[10px] font-semibold text-muted">
                 <div className="flex items-center gap-1">
-                  <Mail className="h-3.5 w-3.5 text-slate-400" />
+                  <Mail className="h-3.5 w-3.5 text-muted-soft" />
                   <span className="truncate max-w-[120px]">{member.email}</span>
                 </div>
                 
@@ -278,7 +278,7 @@ export default function TeamRoles({ project }) {
                 {canManage && member.id !== project.ownerId && member.id !== project.managerId && member.id !== currentUser.id && (
                   <button 
                     onClick={() => handleRemoveMember(member)}
-                    className="text-red-500 hover:text-red-655 font-bold text-[9px] flex items-center gap-0.5 p-1 rounded hover:bg-red-50"
+                    className="text-error hover:text-red-655 font-bold text-[9px] flex items-center gap-0.5 p-1 rounded hover:bg-canvas-soft"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     <span>Remove</span>
@@ -292,26 +292,26 @@ export default function TeamRoles({ project }) {
 
       {/* Invite/Add Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-xl border border-slate-150 bg-white p-6 shadow-dropdown flex flex-col max-h-[90vh]">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-800">Manage Project Team</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-655 font-bold text-sm">✕</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-sm rounded-lg border border-hairline bg-surface-card p-6 flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between pb-3 border-b border-hairline-soft">
+              <h3 className="text-sm font-semibold text-ink">Manage Project Team</h3>
+              <button onClick={() => setShowAddModal(false)} className="text-muted-soft hover:text-body font-bold text-sm">✕</button>
             </div>
 
             {/* Mode selection tabs if there are unassigned company users */}
             {unassignedCompanyUsers.length > 0 && (
-              <div className="flex rounded-lg border border-slate-200 p-0.5 bg-slate-150 my-4 text-xs font-bold text-slate-500">
+              <div className="flex rounded-lg border border-hairline p-0.5 bg-surface-strong my-4 text-xs font-bold text-muted">
                 <button 
                   onClick={() => setAddMode('assign')}
-                  className={`flex-1 py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${addMode === 'assign' ? 'bg-white text-slate-800 shadow-sm' : 'hover:text-slate-800'}`}
+                  className={`flex-1 py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${addMode === 'assign' ? 'bg-surface-card text-ink shadow-sm' : 'hover:text-ink'}`}
                 >
                   <Link2 className="h-3.5 w-3.5" />
                   <span>Assign Existing User</span>
                 </button>
                 <button 
                   onClick={() => setAddMode('create')}
-                  className={`flex-1 py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${addMode === 'create' ? 'bg-white text-slate-800 shadow-sm' : 'hover:text-slate-800'}`}
+                  className={`flex-1 py-1.5 rounded-md transition-colors flex items-center justify-center gap-1.5 ${addMode === 'create' ? 'bg-surface-card text-ink shadow-sm' : 'hover:text-ink'}`}
                 >
                   <UserPlus className="h-3.5 w-3.5" />
                   <span>Create & Assign</span>
@@ -323,11 +323,11 @@ export default function TeamRoles({ project }) {
               /* Assign Existing */
               <form onSubmit={handleAssignMember} className="space-y-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Select Company Member</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Select Company Member</label>
                   <select
                     value={selectedExistingUserId}
                     onChange={e => setSelectedExistingUserId(e.target.value)}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     required
                   >
                     <option value="">-- Choose Member --</option>
@@ -341,13 +341,13 @@ export default function TeamRoles({ project }) {
                   <button 
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50"
+                    className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium"
+                    className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active"
                   >
                     Assign to Project
                   </button>
@@ -357,35 +357,35 @@ export default function TeamRoles({ project }) {
               /* Create New */
               <form onSubmit={handleCreateMember} className="space-y-3.5 overflow-y-auto pr-1">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Full Name</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Full Name</label>
                   <input 
                     type="text" 
                     required
                     value={newMember.name}
                     onChange={e => setNewMember({...newMember, name: e.target.value})}
                     placeholder="e.g. Rajesh Kumar"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3.5">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-700 mb-1">Username</label>
+                    <label className="block text-[10px] font-semibold text-ink mb-1">Username</label>
                     <input 
                       type="text" 
                       required
                       value={newMember.username}
                       onChange={e => setNewMember({...newMember, username: e.target.value})}
                       placeholder="e.g. rajesh"
-                      className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                      className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-700 mb-1">Role Type</label>
+                    <label className="block text-[10px] font-semibold text-ink mb-1">Role Type</label>
                     <select
                       value={newMember.role}
                       onChange={e => setNewMember({...newMember, role: e.target.value})}
-                      className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                      className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     >
                       {allowedRoles.map(r => (
                         <option key={r} value={r}>{r}</option>
@@ -395,19 +395,19 @@ export default function TeamRoles({ project }) {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Email Address</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Email Address</label>
                   <input 
                     type="email" 
                     required
                     value={newMember.email}
                     onChange={e => setNewMember({...newMember, email: e.target.value})}
                     placeholder="e.g. rajesh@company.com"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Account Password</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Account Password</label>
                   <input 
                     type="password" 
                     required
@@ -415,16 +415,16 @@ export default function TeamRoles({ project }) {
                     value={newMember.password}
                     onChange={e => setNewMember({...newMember, password: e.target.value})}
                     placeholder="Enter password"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Assign to Project</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Assign to Project</label>
                   <select
                     value={newMember.projectId}
                     onChange={e => setNewMember({...newMember, projectId: e.target.value})}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     required
                   >
                     <option value="">-- Choose Project --</option>
@@ -434,17 +434,17 @@ export default function TeamRoles({ project }) {
                   </select>
                 </div>
 
-                <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-100">
+                <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-hairline-soft">
                   <button 
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50"
+                    className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium"
+                    className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active"
                   >
                     Create & Assign
                   </button>

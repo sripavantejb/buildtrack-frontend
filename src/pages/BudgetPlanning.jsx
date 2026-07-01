@@ -67,14 +67,14 @@ export default function BudgetPlanning({ project }) {
   const getHealthBadge = (health) => {
     if (health === 'Healthy') {
       return (
-        <span className="flex items-center gap-1 rounded bg-green-50 border border-green-100 px-2 py-0.5 text-[10px] font-bold text-green-600">
+        <span className="flex items-center gap-1 rounded bg-timeline-grep/20 border border-hairline px-2 py-0.5 text-[10px] font-bold text-success">
           <ShieldCheck className="h-3.5 w-3.5" />
           <span>Healthy</span>
         </span>
       );
     }
     return (
-      <span className="flex items-center gap-1 rounded bg-red-50 border border-red-100 px-2 py-0.5 text-[10px] font-bold text-red-600">
+      <span className="flex items-center gap-1 rounded bg-canvas-soft border border-hairline px-2 py-0.5 text-[10px] font-bold text-error">
         <AlertCircle className="h-3.5 w-3.5" />
         <span>At Risk</span>
       </span>
@@ -86,42 +86,42 @@ export default function BudgetPlanning({ project }) {
       
       {/* Title */}
       <div>
-        <h2 className="text-base font-extrabold text-slate-800">Budget Allocation</h2>
-        <p className="text-[10px] text-slate-400 font-medium">Allocate high-level cost baselines to distinct cost categories.</p>
+        <h2 className="text-base font-normal text-ink">Budget Allocation</h2>
+        <p className="text-[10px] text-muted-soft font-medium">Allocate high-level cost baselines to distinct cost categories.</p>
       </div>
 
       {/* Financial Health Summary Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Total Budget</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(budget.totalBudget)}</h3>
-          <p className="mt-1.5 text-[9px] font-semibold text-slate-400">Total project financing allocation</p>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Total Budget</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(budget.totalBudget)}</h3>
+          <p className="mt-1.5 text-[9px] font-semibold text-muted-soft">Total project financing allocation</p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Allocated Budget</p>
-          <h3 className="mt-1 text-base font-black text-slate-800">{formatRupees(budget.allocatedBudget)}</h3>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Allocated Budget</p>
+          <h3 className="mt-1 text-base font-black text-ink">{formatRupees(budget.allocatedBudget)}</h3>
           <p className="mt-1.5 text-[9px] font-bold text-primary">
             {((budget.allocatedBudget / budget.totalBudget) * 100).toFixed(1)}% of total funds
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Unallocated Budget</p>
-          <h3 className={`mt-1 text-base font-black ${budget.unallocatedBudget < 0 ? 'text-red-600' : 'text-slate-800'}`}>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Unallocated Budget</p>
+          <h3 className={`mt-1 text-base font-black ${budget.unallocatedBudget < 0 ? 'text-error' : 'text-ink'}`}>
             {formatRupees(budget.unallocatedBudget)}
           </h3>
-          <p className="mt-1.5 text-[9px] font-semibold text-slate-400">Funds available for categories</p>
+          <p className="mt-1.5 text-[9px] font-semibold text-muted-soft">Funds available for categories</p>
         </div>
 
-        <div className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-premium flex flex-col justify-between">
-          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Budget Health</p>
+        <div className="rounded-lg border border-hairline bg-surface-card p-4 flex flex-col justify-between">
+          <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Budget Health</p>
           <div className="mt-1.5 flex items-center justify-between">
             {getHealthBadge(budget.allocatedBudget > budget.totalBudget ? 'At Risk' : 'Healthy')}
           </div>
-          <div className="mt-2.5 h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+          <div className="mt-2.5 h-1.5 w-full rounded-full bg-canvas-soft overflow-hidden">
             <div 
-              className={`h-full rounded-full ${budget.allocatedBudget > budget.totalBudget ? 'bg-red-500' : 'bg-green-500'}`} 
+              className={`h-full rounded-full ${budget.allocatedBudget > budget.totalBudget ? 'bg-error' : 'bg-success'}`} 
               style={{ width: `${Math.min(100, (budget.allocatedBudget / budget.totalBudget) * 100)}%` }}
             ></div>
           </div>
@@ -129,18 +129,18 @@ export default function BudgetPlanning({ project }) {
       </div>
 
       {/* Categories Allocations Grid */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
+      <div className="rounded-lg border border-hairline bg-surface-card p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h4 className="text-xs font-bold text-slate-800">Financial Categories</h4>
-            <p className="text-[9px] text-slate-400 font-semibold mt-0.5">High level cost divisions baseline and adjustments</p>
+            <h4 className="text-xs font-semibold text-ink">Financial Categories</h4>
+            <p className="text-[9px] text-muted-soft font-semibold mt-0.5">High level cost divisions baseline and adjustments</p>
           </div>
         </div>
 
-        <div className="overflow-x-auto border border-slate-100 rounded-lg">
+        <div className="overflow-x-auto border border-hairline-soft rounded-lg">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold">
+              <tr className="bg-canvas border-b border-hairline text-muted font-bold">
                 <th className="py-2.5 px-4 font-bold text-[10px] uppercase min-w-[200px]">Cost Category</th>
                 <th className="py-2.5 px-3 font-bold text-[10px] uppercase w-28 text-center">Allocated %</th>
                 <th className="py-2.5 px-3 font-bold text-[10px] uppercase text-right w-44">Allocated Cost (₹)</th>
@@ -148,12 +148,12 @@ export default function BudgetPlanning({ project }) {
                 <th className="py-2.5 px-4 font-bold text-[10px] uppercase text-center w-24">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-hairline-soft font-medium text-ink">
               {budget.categories.map((cat, idx) => (
-                <tr key={cat.category} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="py-3 px-4 font-bold text-slate-800">{cat.category}</td>
+                <tr key={cat.category} className="hover:bg-canvas/50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-ink">{cat.category}</td>
                   <td className="py-3 px-3 text-center">
-                    <span className="rounded bg-slate-100 px-1.5 py-0.5 font-bold text-[10px] text-slate-600">
+                    <span className="rounded bg-canvas-soft px-1.5 py-0.5 font-bold text-[10px] text-body">
                       {((cat.allocated / budget.totalBudget) * 100).toFixed(0)}%
                     </span>
                   </td>
@@ -163,25 +163,25 @@ export default function BudgetPlanning({ project }) {
                         type="text"
                         value={editValue}
                         onChange={e => setEditValue(e.target.value)}
-                        className="w-32 rounded border border-slate-200 px-1.5 py-0.5 text-right font-bold focus:outline-none"
+                        className="w-32 rounded border border-hairline px-1.5 py-0.5 text-right font-bold focus:outline-none"
                       />
                     ) : (
-                      <span className="font-bold text-slate-800">{formatRupees(cat.allocated)}</span>
+                      <span className="font-semibold text-ink">{formatRupees(cat.allocated)}</span>
                     )}
                   </td>
-                  <td className="py-3 px-3 text-right text-slate-500">{formatRupees(cat.spent)}</td>
+                  <td className="py-3 px-3 text-right text-muted">{formatRupees(cat.spent)}</td>
                   <td className="py-3 px-4 text-center">
                     {editingIndex === idx ? (
                       <div className="flex justify-center gap-1.5">
                         <button 
                           onClick={() => handleSaveCategory(idx)}
-                          className="text-green-600 hover:bg-green-50 p-1 rounded transition-colors"
+                          className="text-success hover:bg-timeline-grep/20 p-1 rounded transition-colors"
                         >
                           <Check className="h-4 w-4" />
                         </button>
                         <button 
                           onClick={() => setEditingIndex(null)}
-                          className="text-slate-400 hover:bg-slate-50 p-1 rounded transition-colors"
+                          className="text-muted-soft hover:bg-canvas p-1 rounded transition-colors"
                         >
                           <X className="h-4 w-4" />
                         </button>

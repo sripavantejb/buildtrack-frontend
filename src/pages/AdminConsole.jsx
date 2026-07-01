@@ -275,7 +275,7 @@ export default function AdminConsole() {
 
   const renderTreeNodes = (nodes, level = 0) => {
     return (
-      <div className={`space-y-4 ${level > 0 ? 'pl-6 border-l border-dashed border-slate-200/80 mt-2 ml-4' : ''}`}>
+      <div className={`space-y-4 ${level > 0 ? 'pl-6 border-l border-dashed border-hairline mt-2 ml-4' : ''}`}>
         {nodes.map(node => {
           const hasChildren = node.children && node.children.length > 0;
           const isExpanded = expandedNodes[node.id] !== false; // default expanded
@@ -284,16 +284,16 @@ export default function AdminConsole() {
             <div key={node.id} className="relative">
               {/* Connector horizontal line */}
               {level > 0 && (
-                <div className="absolute -left-6 top-5 w-6 border-t border-dashed border-slate-200/80"></div>
+                <div className="absolute -left-6 top-5 w-6 border-t border-dashed border-hairline"></div>
               )}
               
               <div 
-                className={`flex items-start gap-3.5 bg-white p-4 rounded-xl border shadow-premium max-w-2xl transition-all duration-200 ${
+                className={`flex items-start gap-3.5 bg-surface-card p-4 rounded-lg border max-w-2xl transition-all duration-200 ${
                   !node.isActive 
-                    ? 'border-slate-200 opacity-65 bg-slate-50/50' 
+                    ? 'border-hairline opacity-65 bg-canvas/50' 
                     : node.id === currentUser.id 
-                      ? 'border-indigo-200 ring-2 ring-indigo-50 bg-indigo-50/10' 
-                      : 'border-slate-200/90 hover:border-slate-300 hover:shadow-dropdown'
+                      ? 'border-hairline ring-2 ring-primary/10 bg-canvas-soft/10' 
+                      : 'border-hairline/90 hover:border-hairline-strong hover:shadow-dropdown'
                 }`}
               >
                 {/* Avatar */}
@@ -301,10 +301,10 @@ export default function AdminConsole() {
                   <img 
                     src={node.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"} 
                     alt={node.name} 
-                    className="h-10 w-10 rounded-full object-cover border border-slate-100 flex-shrink-0"
+                    className="h-10 w-10 rounded-full object-cover border border-hairline-soft flex-shrink-0"
                   />
                   <span className={`absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white ${
-                    node.isActive ? 'bg-emerald-500' : 'bg-slate-350'
+                    node.isActive ? 'bg-success' : 'bg-muted-soft'
                   }`} />
                 </div>
 
@@ -312,32 +312,32 @@ export default function AdminConsole() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <h5 className="text-xs font-bold text-slate-800 truncate leading-snug">{node.name}</h5>
+                      <h5 className="text-xs font-semibold text-ink truncate leading-snug">{node.name}</h5>
                       {node.id === currentUser.id && (
-                        <span className="rounded bg-indigo-100 text-indigo-700 px-1 py-0.2 text-[8px] font-extrabold tracking-wide uppercase">You</span>
+                        <span className="rounded bg-canvas-soft text-primary px-1 py-0.2 text-[8px] font-normal tracking-wide uppercase">You</span>
                       )}
                     </div>
 
                     <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
-                      <span className={`rounded px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wide ${
+                      <span className={`rounded px-1.5 py-0.5 text-[8px] font-normal uppercase tracking-wide ${
                         node.role === 'Platform Owner' ? 'bg-purple-50 text-purple-600 border border-purple-100' :
-                        node.role === 'Super Admin' ? 'bg-indigo-50 text-indigo-600 border border-indigo-100' :
-                        node.role === 'Manager' ? 'bg-blue-50 text-blue-600 border border-blue-100' :
-                        node.role === 'Site Manager' ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-slate-100 text-slate-600'
+                        node.role === 'Super Admin' ? 'bg-canvas-soft text-primary border border-hairline' :
+                        node.role === 'Manager' ? 'bg-timeline-read/20 text-timeline-read border border-hairline' :
+                        node.role === 'Site Manager' ? 'bg-timeline-thinking/20 text-amber-600 border border-amber-100' : 'bg-canvas-soft text-body'
                       }`}>
                         {node.role}
                       </span>
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-slate-400 font-semibold mt-0.5">@{node.username} • {node.email}</p>
+                  <p className="text-[10px] text-muted-soft font-semibold mt-0.5">@{node.username} • {node.email}</p>
                   
                   {node.assignedProjects && node.assignedProjects.length > 0 && (
                     <div className="mt-2.5 flex flex-wrap gap-1">
                       {node.assignedProjects.map(projId => {
                         const matchedProj = projects.find(p => p.id === projId);
                         return (
-                          <span key={projId} className="rounded bg-slate-50 border border-slate-150 px-1.5 py-0.5 text-[8px] font-bold text-slate-500">
+                          <span key={projId} className="rounded bg-canvas border border-hairline px-1.5 py-0.5 text-[8px] font-bold text-muted">
                             {matchedProj ? matchedProj.name : projId}
                           </span>
                         );
@@ -347,11 +347,11 @@ export default function AdminConsole() {
 
                   {/* Node Actions */}
                   {node.id !== currentUser.id && node.role !== 'Platform Owner' && (
-                    <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-end gap-3.5">
+                    <div className="mt-3 pt-2.5 border-t border-hairline-soft flex items-center justify-end gap-3.5">
                       <button 
                         onClick={() => handleToggleStatus(node)}
-                        className={`text-[9px] font-extrabold transition-colors ${
-                          node.isActive ? 'text-slate-500 hover:text-slate-800' : 'text-emerald-500 hover:text-emerald-650'
+                        className={`text-[9px] font-normal transition-colors ${
+                          node.isActive ? 'text-muted hover:text-ink' : 'text-emerald-500 hover:text-emerald-650'
                         }`}
                       >
                         {node.isActive ? 'Deactivate' : 'Activate'}
@@ -364,13 +364,13 @@ export default function AdminConsole() {
                           });
                           setShowEditModal(true);
                         }}
-                        className="text-[9px] font-extrabold text-primary hover:text-primary-hover"
+                        className="text-[9px] font-normal text-primary hover:text-primary-hover"
                       >
                         Edit
                       </button>
                       <button 
                         onClick={() => handleDeleteUser(node)}
-                        className="text-[9px] font-extrabold text-red-500 hover:text-red-655"
+                        className="text-[9px] font-normal text-error hover:text-red-655"
                       >
                         Delete
                       </button>
@@ -381,7 +381,7 @@ export default function AdminConsole() {
                 {hasChildren && (
                   <button 
                     onClick={() => toggleExpand(node.id)}
-                    className="p-1 rounded-lg hover:bg-slate-100 text-slate-450 self-start transition-colors"
+                    className="p-1 rounded-lg hover:bg-canvas-soft text-muted self-start transition-colors"
                   >
                     {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                   </button>
@@ -395,17 +395,17 @@ export default function AdminConsole() {
       </div>
     );
   };  return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden bg-canvas">
       {/* Left Sidebar (Desktop) */}
-      <aside className="flex w-64 flex-col border-r border-slate-200/80 bg-white flex-shrink-0">
+      <aside className="flex w-64 flex-col border-r border-hairline bg-surface-card flex-shrink-0">
         {/* Logo Branding */}
-        <div className="flex h-16 items-center gap-2 border-b border-slate-100 px-6 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white shadow-premium">
+        <div className="flex h-16 items-center gap-2 border-b border-hairline-soft px-6 cursor-pointer" onClick={() => navigate('/')}>
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-slate-800 tracking-tight">BuildTrack</h1>
-            <p className="text-[10px] text-slate-400 font-medium leading-none">Construction Management</p>
+            <h1 className="text-base font-semibold text-ink tracking-tight">BuildTrack</h1>
+            <p className="text-[10px] text-muted-soft font-medium leading-none">Construction Management</p>
           </div>
         </div>
 
@@ -414,9 +414,9 @@ export default function AdminConsole() {
           <button
             type="button"
             onClick={() => navigate('/')}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors text-left"
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs font-semibold text-muted hover:bg-canvas hover:text-ink transition-colors text-left"
           >
-            <Building2 className="h-4.5 w-4.5 text-slate-400" />
+            <Building2 className="h-4.5 w-4.5 text-muted-soft" />
             Projects
           </button>
           {['Platform Owner', 'Super Admin', 'Manager'].includes(currentUser?.role) && (
@@ -431,10 +431,10 @@ export default function AdminConsole() {
         </nav>
 
         {/* User profile footer widget */}
-        <div className="relative border-t border-slate-100 p-4">
+        <div className="relative border-t border-hairline-soft p-4">
           <button 
             onClick={() => { api.logout(); navigate('/login'); }}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-error hover:bg-canvas-soft transition-colors"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
@@ -445,10 +445,10 @@ export default function AdminConsole() {
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-slate-200/80 bg-white px-8 flex-shrink-0">
+        <header className="flex h-16 items-center justify-between border-b border-hairline bg-surface-card px-8 flex-shrink-0">
           <div>
-            <h2 className="text-base font-extrabold text-slate-800 tracking-tight">Admin Console</h2>
-            <p className="text-[10px] text-slate-400 font-medium mt-0.5">
+            <h2 className="text-base font-normal text-ink tracking-tight">Admin Console</h2>
+            <p className="text-[10px] text-muted-soft font-medium mt-0.5">
               Manage credentials, team roles, and project mapping in a hierarchical view.
             </p>
           </div>
@@ -456,14 +456,14 @@ export default function AdminConsole() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               {/* Toggle view mode */}
-              <div className="flex rounded-lg border border-slate-200 p-0.5 bg-slate-100">
+              <div className="flex rounded-lg border border-hairline p-0.5 bg-canvas-soft">
                 <button 
                   type="button"
                   onClick={() => setViewMode('tree')}
                   className={`px-3 py-1 text-[10px] font-bold rounded-md transition-colors ${
                     viewMode === 'tree' 
-                      ? 'bg-white text-slate-800 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-850'
+                      ? 'bg-surface-card text-ink shadow-sm' 
+                      : 'text-muted hover:text-ink'
                   }`}
                 >
                   Tree Hierarchy
@@ -473,8 +473,8 @@ export default function AdminConsole() {
                   onClick={() => setViewMode('list')}
                   className={`px-3 py-1 text-[10px] font-bold rounded-md transition-colors ${
                     viewMode === 'list' 
-                      ? 'bg-white text-slate-800 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-850'
+                      ? 'bg-surface-card text-ink shadow-sm' 
+                      : 'text-muted hover:text-ink'
                   }`}
                 >
                   Grid List
@@ -494,23 +494,23 @@ export default function AdminConsole() {
                   });
                   setShowAddModal(true);
                 }}
-                className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+                className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
               >
                 <UserPlus className="h-4 w-4" />
                 <span>Create Account</span>
               </button>
             </div>
             
-            <div className="h-8 w-px bg-slate-200"></div>
+            <div className="h-8 w-px bg-hairline"></div>
             <div className="text-right">
-              <p className="text-xs font-semibold text-slate-700">{currentUser?.name}</p>
-              <p className="text-[10px] text-slate-400 font-medium">{currentUser?.role}</p>
+              <p className="text-xs font-semibold text-ink">{currentUser?.name}</p>
+              <p className="text-[10px] text-muted-soft font-medium">{currentUser?.role}</p>
             </div>
           </div>
         </header>
 
         {/* View Content Port */}
-        <main className="flex-1 overflow-y-auto bg-slate-50 p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto bg-canvas p-4 sm:p-6 lg:p-8">
           {loading ? (
             <div className="flex h-64 items-center justify-center">
               <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
@@ -518,16 +518,16 @@ export default function AdminConsole() {
           ) : (
             <div className="space-y-6">
               {error && (
-                <div className="rounded-lg bg-red-50 border border-red-100 p-3.5 text-xs font-semibold text-red-600">
+                <div className="rounded-lg bg-canvas-soft border border-hairline p-3.5 text-xs font-semibold text-error">
                   {error}
                 </div>
               )}
 
               {/* Main Hierarchy UI */}
               {viewMode === 'tree' ? (
-                <div className="rounded-xl border border-slate-200/80 bg-white p-6 shadow-premium">
-                  <h4 className="text-xs font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <Users className="h-4 w-4 text-indigo-500" />
+                <div className="rounded-lg border border-hairline bg-surface-card p-6">
+                  <h4 className="text-xs font-semibold text-ink mb-6 flex items-center gap-2">
+                    <Users className="h-4 w-4 text-primary" />
                     <span>Organization Visual Tree</span>
                   </h4>
                   
@@ -536,26 +536,26 @@ export default function AdminConsole() {
                       {renderTreeNodes(hierarchyTree)}
                     </div>
                   ) : (
-                    <div className="py-12 text-center text-xs text-slate-400">
+                    <div className="py-12 text-center text-xs text-muted-soft">
                       No organization members loaded.
                     </div>
                   )}
                 </div>
               ) : (
                 /* Grid List View */
-                <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
-                  <h4 className="text-xs font-bold text-slate-800 mb-4">Manage System Accounts</h4>
+                <div className="rounded-lg border border-hairline bg-surface-card p-5">
+                  <h4 className="text-xs font-semibold text-ink mb-4">Manage System Accounts</h4>
 
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {users.map((u) => (
                       <div 
                         key={u.id} 
-                        className={`rounded-xl border bg-white p-4 shadow-premium flex flex-col justify-between transition-all duration-200 ${
+                        className={`rounded-lg border bg-surface-card p-4 flex flex-col justify-between transition-all duration-200 ${
                           !u.isActive 
-                            ? 'opacity-65 border-slate-200 bg-slate-50/50' 
+                            ? 'opacity-65 border-hairline bg-canvas/50' 
                             : u.id === currentUser.id 
-                              ? 'border-indigo-200 ring-2 ring-indigo-50' 
-                              : 'border-slate-200/90'
+                              ? 'border-hairline ring-2 ring-primary/10' 
+                              : 'border-hairline/90'
                         }`}
                       >
                         <div>
@@ -564,25 +564,25 @@ export default function AdminConsole() {
                               <img 
                                 src={u.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150"} 
                                 alt={u.name} 
-                                className="h-10 w-10 rounded-full object-cover border border-slate-100"
+                                className="h-10 w-10 rounded-full object-cover border border-hairline-soft"
                               />
                               <div>
                                 <div className="flex items-center gap-1.5">
-                                  <h5 className="text-xs font-bold text-slate-800 leading-snug">{u.name}</h5>
+                                  <h5 className="text-xs font-semibold text-ink leading-snug">{u.name}</h5>
                                   {u.id === currentUser.id && (
-                                    <span className="rounded bg-indigo-100 text-indigo-700 px-1 py-0.2 text-[8px] font-extrabold uppercase">You</span>
+                                    <span className="rounded bg-canvas-soft text-primary px-1 py-0.2 text-[8px] font-normal uppercase">You</span>
                                   )}
                                 </div>
                                 <div className="flex items-center gap-1.5 mt-0.5">
-                                  <span className={`rounded-sm px-1.5 py-0.2 text-[8px] font-extrabold uppercase tracking-wide ${
+                                  <span className={`rounded-sm px-1.5 py-0.2 text-[8px] font-normal uppercase tracking-wide ${
                                     u.role === 'Platform Owner' ? 'bg-purple-50 text-purple-650' :
-                                    u.role === 'Super Admin' ? 'bg-indigo-50 text-indigo-650' :
-                                    u.role === 'Manager' ? 'bg-blue-50 text-blue-650' :
-                                    u.role === 'Site Manager' ? 'bg-amber-50 text-amber-650' : 'bg-slate-100 text-slate-655'
+                                    u.role === 'Super Admin' ? 'bg-canvas-soft text-primary' :
+                                    u.role === 'Manager' ? 'bg-timeline-read/20 text-blue-650' :
+                                    u.role === 'Site Manager' ? 'bg-timeline-thinking/20 text-timeline-done' : 'bg-canvas-soft text-body'
                                   }`}>
                                     {u.role}
                                   </span>
-                                  <span className="text-[9px] font-bold text-slate-400">@{u.username}</span>
+                                  <span className="text-[9px] font-bold text-muted-soft">@{u.username}</span>
                                 </div>
                               </div>
                             </div>
@@ -591,25 +591,25 @@ export default function AdminConsole() {
                               <button 
                                 onClick={() => handleToggleStatus(u)}
                                 title={u.isActive ? "Deactivate Account" : "Activate Account"}
-                                className="text-slate-400 hover:text-slate-600 transition-colors"
+                                className="text-muted-soft hover:text-body transition-colors"
                               >
                                 {u.isActive ? (
                                   <ToggleRight className="h-6 w-6 text-emerald-500" />
                                 ) : (
-                                  <ToggleLeft className="h-6 w-6 text-slate-350" />
+                                  <ToggleLeft className="h-6 w-6 text-muted-soft" />
                                 )}
                               </button>
                             )}
                           </div>
 
-                          <div className="mt-4 space-y-1.5 border-t border-slate-100 pt-3 text-[10px] font-semibold text-slate-500">
+                          <div className="mt-4 space-y-1.5 border-t border-hairline-soft pt-3 text-[10px] font-semibold text-muted">
                             <div className="flex items-center gap-1.5">
-                              <Mail className="h-3.5 w-3.5 text-slate-400" />
+                              <Mail className="h-3.5 w-3.5 text-muted-soft" />
                               <span className="truncate">{u.email}</span>
                             </div>
                             {u.role !== 'Super Admin' && u.role !== 'Platform Owner' && (
                               <div className="pt-1.5">
-                                <p className="text-[9px] text-slate-400 uppercase font-extrabold tracking-wider mb-1">
+                                <p className="text-[9px] text-muted-soft uppercase font-normal tracking-wider mb-1">
                                   Assigned Projects ({u.assignedProjects?.length || 0})
                                 </p>
                                 <div className="flex flex-wrap gap-1">
@@ -617,13 +617,13 @@ export default function AdminConsole() {
                                     u.assignedProjects.map(projId => {
                                       const matchedProj = projects.find(p => p.id === projId);
                                       return (
-                                        <span key={projId} className="rounded bg-slate-100 px-1.5 py-0.5 text-[8px] font-bold text-slate-600">
+                                        <span key={projId} className="rounded bg-canvas-soft px-1.5 py-0.5 text-[8px] font-bold text-body">
                                           {matchedProj ? matchedProj.name : projId}
                                         </span>
                                       );
                                     })
                                   ) : (
-                                    <span className="text-slate-400 font-medium text-[9px] italic">No projects assigned</span>
+                                    <span className="text-muted-soft font-medium text-[9px] italic">No projects assigned</span>
                                   )}
                                 </div>
                               </div>
@@ -632,7 +632,7 @@ export default function AdminConsole() {
                         </div>
 
                         {u.id !== currentUser.id && u.role !== 'Platform Owner' && (
-                          <div className="mt-5 flex items-center justify-between border-t border-slate-50 pt-3">
+                          <div className="mt-5 flex items-center justify-between border-t border-hairline-soft pt-3">
                             <button 
                               onClick={() => {
                                 setEditingUser({
@@ -649,7 +649,7 @@ export default function AdminConsole() {
 
                             <button 
                               onClick={() => handleDeleteUser(u)}
-                              className="text-red-500 hover:text-red-600 font-bold p-1 rounded-lg hover:bg-red-50 transition-colors"
+                              className="text-error hover:text-error font-bold p-1 rounded-lg hover:bg-canvas-soft transition-colors"
                               title="Delete User"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -668,44 +668,44 @@ export default function AdminConsole() {
 
       {/* Add User Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-150 bg-white p-6 shadow-dropdown max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-800">Create Team/Company Account</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-655 font-bold text-sm">✕</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-md rounded-lg border border-hairline bg-surface-card p-6 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-hairline-soft">
+              <h3 className="text-sm font-semibold text-ink">Create Team/Company Account</h3>
+              <button onClick={() => setShowAddModal(false)} className="text-muted-soft hover:text-body font-bold text-sm">✕</button>
             </div>
             
             <form onSubmit={handleCreateUser} className="mt-4 space-y-3.5 flex-1 overflow-y-auto pr-1">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Company / User Full Name</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Company / User Full Name</label>
                 <input 
                   type="text" 
                   required
                   value={newUser.name}
                   onChange={e => setNewUser({...newUser, name: e.target.value})}
                   placeholder="e.g. Rajesh Kumar"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Username</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Username</label>
                   <input 
                     type="text" 
                     required
                     value={newUser.username}
                     onChange={e => setNewUser({...newUser, username: e.target.value})}
                     placeholder="e.g. rajesh"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Role Type</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Role Type</label>
                   <select
                     value={newUser.role}
                     onChange={e => setNewUser({...newUser, role: e.target.value, assignedProjects: []})}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                   >
                     {allowedRoles.map(r => (
                       <option key={r} value={r}>{r}</option>
@@ -717,11 +717,11 @@ export default function AdminConsole() {
               {/* Platform Owner Tenant Assigning Dropdown */}
               {newUser.role !== 'Super Admin' && currentUser.role === 'Platform Owner' && (
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Company Organization</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Company Organization</label>
                   <select
                     value={newUser.companyId}
                     onChange={e => setNewUser({...newUser, companyId: e.target.value})}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     required
                   >
                     <option value="">-- Choose Company --</option>
@@ -733,19 +733,19 @@ export default function AdminConsole() {
               )}
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Email Address</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Email Address</label>
                 <input 
                   type="email" 
                   required
                   value={newUser.email}
                   onChange={e => setNewUser({...newUser, email: e.target.value})}
                   placeholder="e.g. rajesh@prestige.com"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Account Password</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Account Password</label>
                 <input 
                   type="password" 
                   required
@@ -753,19 +753,19 @@ export default function AdminConsole() {
                   value={newUser.password}
                   onChange={e => setNewUser({...newUser, password: e.target.value})}
                   placeholder="Set password"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               {newUser.role !== 'Super Admin' && (
-                <div className="border-t border-slate-100 pt-3">
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">
+                <div className="border-t border-hairline-soft pt-3">
+                  <label className="block text-[10px] font-semibold text-ink mb-1">
                     Assign Project Access
                   </label>
                   <select
                     value={newUser.assignedProjects[0] || ''}
                     onChange={e => setNewUser({ ...newUser, assignedProjects: e.target.value ? [e.target.value] : [] })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     required
                   >
                     <option value="">-- Choose Project --</option>
@@ -776,17 +776,17 @@ export default function AdminConsole() {
                 </div>
               )}
 
-              <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-100">
+              <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-hairline-soft">
                 <button 
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-655 hover:bg-slate-50"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active"
                 >
                   Create User
                 </button>
@@ -798,41 +798,41 @@ export default function AdminConsole() {
 
       {/* Edit User Modal */}
       {showEditModal && editingUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-150 bg-white p-6 shadow-dropdown max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-800">Edit Account Details</h3>
-              <button onClick={() => setShowEditModal(false)} className="text-slate-400 hover:text-slate-655 font-bold text-sm">✕</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-md rounded-lg border border-hairline bg-surface-card p-6 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-hairline-soft">
+              <h3 className="text-sm font-semibold text-ink">Edit Account Details</h3>
+              <button onClick={() => setShowEditModal(false)} className="text-muted-soft hover:text-body font-bold text-sm">✕</button>
             </div>
             
             <form onSubmit={handleUpdateUser} className="mt-4 space-y-3.5 flex-1 overflow-y-auto pr-1">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Company / User Full Name</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Company / User Full Name</label>
                 <input 
                   type="text" 
                   required
                   value={editingUser.name}
                   onChange={e => setEditingUser({...editingUser, name: e.target.value})}
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-750 mb-1">Username (Read Only)</label>
+                  <label className="block text-[10px] font-bold text-ink mb-1">Username (Read Only)</label>
                   <input 
                     type="text" 
                     disabled
                     value={editingUser.username}
-                    className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs text-slate-400 focus:outline-none"
+                    className="w-full rounded-lg border border-hairline bg-canvas px-3 py-1.5 text-xs text-muted-soft focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Role Type</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Role Type</label>
                   <select
                     value={editingUser.role}
                     onChange={e => setEditingUser({...editingUser, role: e.target.value})}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                   >
                     {allowedRoles.map(r => (
                       <option key={r} value={r}>{r}</option>
@@ -842,37 +842,37 @@ export default function AdminConsole() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Email Address</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Email Address</label>
                 <input 
                   type="email" 
                   required
                   value={editingUser.email}
                   onChange={e => setEditingUser({...editingUser, email: e.target.value})}
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Change Password (Leave blank to keep current)</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Change Password (Leave blank to keep current)</label>
                 <input 
                   type="password" 
                   autoComplete="new-password"
                   value={editingUser.password || ''}
                   onChange={e => setEditingUser({...editingUser, password: e.target.value})}
                   placeholder="Enter new password"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
               {editingUser.role !== 'Super Admin' && (
-                <div className="border-t border-slate-100 pt-3">
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">
+                <div className="border-t border-hairline-soft pt-3">
+                  <label className="block text-[10px] font-semibold text-ink mb-1">
                     Assign Project Access
                   </label>
                   <select
                     value={editingUser.assignedProjects[0] || ''}
                     onChange={e => setEditingUser({ ...editingUser, assignedProjects: e.target.value ? [e.target.value] : [] })}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none cursor-pointer"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none cursor-pointer"
                     required
                   >
                     <option value="">-- Choose Project --</option>
@@ -883,17 +883,17 @@ export default function AdminConsole() {
                 </div>
               )}
 
-              <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-100">
+              <div className="mt-6 flex justify-end gap-3 pt-3 border-t border-hairline-soft">
                 <button 
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-655 hover:bg-slate-50"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active"
                 >
                   Save Changes
                 </button>

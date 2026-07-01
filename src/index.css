@@ -4,12 +4,18 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased selection:bg-primary/20;
+    background-color: theme('colors.canvas');
+    color: theme('colors.ink');
+    @apply font-sans antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3 {
+    color: theme('colors.ink');
+    @apply font-normal;
   }
 }
 
-/* Custom Scrollbar for modern dashboards */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -20,36 +26,116 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #cfcdc4;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a09c92;
 }
 
-/* Premium Layout Elements */
-.sidebar-link-active {
-  @apply bg-primary-light text-primary font-medium;
+@layer components {
+  .sidebar-link-active {
+    background-color: theme('colors.canvas-soft');
+    color: theme('colors.primary');
+    border-color: theme('colors.hairline');
+    @apply font-medium border;
+  }
+
+  .sidebar-link-inactive {
+    color: theme('colors.muted');
+    @apply transition-colors;
+  }
+
+  .sidebar-link-inactive:hover {
+    color: theme('colors.ink');
+    background-color: theme('colors.canvas-soft');
+  }
+
+  .feature-card {
+    background-color: theme('colors.surface-card');
+    border-color: theme('colors.hairline');
+    @apply border rounded-lg;
+  }
+
+  .premium-card {
+    background-color: theme('colors.surface-card');
+    border-color: theme('colors.hairline');
+    @apply border rounded-lg;
+  }
+
+  .btn-primary {
+    background-color: theme('colors.primary');
+    @apply inline-flex items-center justify-center h-10 px-[18px] rounded-md text-white text-sm font-medium transition-colors disabled:opacity-50;
+  }
+
+  .btn-primary:hover {
+    background-color: theme('colors.primary-active');
+  }
+
+  .btn-secondary {
+    background-color: theme('colors.surface-card');
+    color: theme('colors.ink');
+    border-color: theme('colors.hairline-strong');
+    @apply inline-flex items-center justify-center h-10 px-[17px] rounded-md text-sm font-medium border transition-colors;
+  }
+
+  .btn-secondary:hover {
+    background-color: theme('colors.canvas-soft');
+  }
+
+  .btn-download {
+    background-color: theme('colors.ink');
+    color: theme('colors.canvas');
+    @apply inline-flex items-center justify-center h-11 px-5 rounded-md text-sm font-medium hover:opacity-90 transition-opacity;
+  }
+
+  .text-input {
+    background-color: theme('colors.surface-card');
+    color: theme('colors.ink');
+    border-color: theme('colors.hairline');
+    @apply w-full h-11 rounded-md border px-4 text-base transition-colors focus:outline-none;
+  }
+
+  .text-input::placeholder {
+    color: theme('colors.muted-soft');
+  }
+
+  .text-input:focus {
+    border-color: theme('colors.hairline-strong');
+  }
+
+  .badge-pill {
+    background-color: theme('colors.surface-strong');
+    color: theme('colors.ink');
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider;
+  }
+
+  .page-title {
+    color: theme('colors.ink');
+    font-size: theme('fontSize.display-sm[0]');
+    line-height: theme('fontSize.display-sm[1].lineHeight');
+    letter-spacing: theme('fontSize.display-sm[1].letterSpacing');
+    font-weight: 400;
+  }
+
+  .page-subtitle {
+    color: theme('colors.muted');
+    @apply text-sm mt-1;
+  }
+
+  .section-label {
+    color: theme('colors.muted');
+    @apply text-[11px] font-semibold uppercase tracking-wider;
+  }
 }
 
-.sidebar-link-inactive {
-  @apply text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors;
-}
-
-/* Glassmorphism details and soft shadows */
-.premium-card {
-  @apply bg-white border border-slate-200/80 rounded-xl shadow-premium hover:shadow-card transition-shadow duration-300;
-}
-
-/* Animated progress circular border */
 .progress-ring__circle {
   transition: stroke-dashoffset 0.35s;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
 }
 
-/* Disable browser default focus ring outlines on SVG segments */
 path:focus,
 .recharts-sector:focus,
 .recharts-curve:focus,

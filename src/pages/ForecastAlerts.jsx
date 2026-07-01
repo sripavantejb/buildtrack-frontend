@@ -94,11 +94,11 @@ export default function ForecastAlerts({ project }) {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-extrabold text-slate-800">Forecast & Predictive Alerts</h2>
-          <p className="text-[10px] text-slate-400 font-medium">Automatic system forecasts on stock levels, budget, and project scheduling.</p>
+          <h2 className="text-base font-normal text-ink">Forecast & Predictive Alerts</h2>
+          <p className="text-[10px] text-muted-soft font-medium">Automatic system forecasts on stock levels, budget, and project scheduling.</p>
         </div>
-        <div className="flex items-center gap-1.5 rounded-lg bg-indigo-50 border border-indigo-100 px-3 py-1.5 text-[10px] font-bold text-indigo-700">
-          <Zap className="h-3.5 w-3.5 fill-indigo-200" />
+        <div className="flex items-center gap-1.5 rounded-lg bg-canvas-soft border border-hairline px-3 py-1.5 text-[10px] font-bold text-primary">
+          <Zap className="h-3.5 w-3.5 fill-timeline-edit" />
           <span>AI Insights Active</span>
         </div>
       </div>
@@ -109,26 +109,26 @@ export default function ForecastAlerts({ project }) {
           let typeColor, typeBg, typeBorder, alertIcon;
           switch (p.type) {
             case 'Critical':
-              typeColor = 'text-red-500';
-              typeBg = 'bg-red-50/25';
+              typeColor = 'text-error';
+              typeBg = 'bg-canvas-soft/25';
               typeBorder = 'border-red-150';
               alertIcon = <AlertTriangle className="h-4.5 w-4.5" />;
               break;
             case 'Warning':
-              typeColor = 'text-orange-500';
-              typeBg = 'bg-orange-50/25';
+              typeColor = 'text-timeline-done';
+              typeBg = 'bg-timeline-thinking/20/25';
               typeBorder = 'border-orange-150';
               alertIcon = <AlertTriangle className="h-4.5 w-4.5" />;
               break;
             case 'Success':
-              typeColor = 'text-green-500';
-              typeBg = 'bg-green-50/25';
+              typeColor = 'text-success';
+              typeBg = 'bg-timeline-grep/20/25';
               typeBorder = 'border-green-150';
               alertIcon = <CheckCircle2 className="h-4.5 w-4.5" />;
               break;
             default:
-              typeColor = 'text-blue-500';
-              typeBg = 'bg-blue-50/25';
+              typeColor = 'text-timeline-read';
+              typeBg = 'bg-timeline-read/20/25';
               typeBorder = 'border-blue-150';
               alertIcon = <Clock className="h-4.5 w-4.5" />;
               break;
@@ -137,30 +137,30 @@ export default function ForecastAlerts({ project }) {
           return (
             <div 
               key={p.id} 
-              className={`rounded-xl border ${typeBorder} ${typeBg} p-5 shadow-premium flex flex-col justify-between`}
+              className={`rounded-lg border ${typeBorder} ${typeBg} p-5 flex flex-col justify-between`}
             >
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className={typeColor}>{alertIcon}</span>
-                    <h4 className="text-xs font-bold text-slate-800">{p.title}</h4>
+                    <h4 className="text-xs font-semibold text-ink">{p.title}</h4>
                   </div>
                   <span className={`rounded px-2 py-0.5 text-[9px] font-bold ${
-                    p.type === 'Critical' ? 'bg-red-50 text-red-600 border border-red-100' :
-                    p.type === 'Warning' ? 'bg-orange-50 text-orange-600 border border-orange-100' :
-                    p.type === 'Success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-blue-50 text-blue-600 border border-blue-100'
+                    p.type === 'Critical' ? 'bg-canvas-soft text-error border border-hairline' :
+                    p.type === 'Warning' ? 'bg-timeline-thinking/20 text-timeline-done border border-hairline' :
+                    p.type === 'Success' ? 'bg-timeline-grep/20 text-success border border-hairline' : 'bg-timeline-read/20 text-timeline-read border border-hairline'
                   }`}>
                     {p.metric}
                   </span>
                 </div>
 
-                <p className="mt-3 text-xs text-slate-500 font-medium leading-relaxed">
+                <p className="mt-3 text-xs text-muted font-medium leading-relaxed">
                   {p.desc}
                 </p>
 
-                <div className="mt-4 border-t border-slate-100 pt-3">
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Recommendation</p>
-                  <p className="mt-1 text-[11px] font-semibold text-slate-700 leading-normal">
+                <div className="mt-4 border-t border-hairline-soft pt-3">
+                  <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Recommendation</p>
+                  <p className="mt-1 text-[11px] font-semibold text-ink leading-normal">
                     {p.recommendation}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ export default function ForecastAlerts({ project }) {
                       navigate(`/project/${project.id}/settings`);
                     }
                   }}
-                  className="flex items-center gap-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-650 hover:text-slate-800 px-3 py-1.5 text-[10px] font-bold transition-all shadow-premium"
+                  className="flex items-center gap-1 rounded-lg bg-surface-card border border-hairline hover:bg-canvas text-body hover:text-ink px-3 py-1.5 text-[10px] font-bold transition-all"
                 >
                   <span>{p.actionLabel}</span>
                   <ArrowRight className="h-3 w-3" />

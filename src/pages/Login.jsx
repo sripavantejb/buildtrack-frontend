@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Building2, Wallet, Package, Clock } from 'lucide-react';
+import { Eye, EyeOff, Building2 } from 'lucide-react';
 import { api } from '../services/api';
+
+const STEPS = [
+  { number: 1, label: 'Enter your email and password', active: true },
+  { number: 2, label: 'Access your project dashboard', active: false },
+];
 
 export default function Login() {
   const [email, setEmail] = useState('arjun@buildtrack.com');
   const [password, setPassword] = useState('password123');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,190 +33,138 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 items-center justify-center p-4 sm:p-6 md:p-10">
-      {/* Central Glassmorphic Card Container */}
-      <div className="flex w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-premium border border-slate-100 min-h-[580px]">
-        
-        {/* Left Side Panel - Branding & Image Grid */}
-        <div className="relative hidden w-1/2 bg-slate-900 md:flex flex-col justify-between p-10 overflow-hidden">
-          {/* Background image overlay */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-overlay"
-            style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&auto=format&fit=crop&q=80')" }}
-          ></div>
-          
-          {/* Logo */}
-          <div className="relative z-10 flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white shadow-premium">
-              <Building2 className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-base font-bold text-white tracking-tight">BuildTrack</span>
-              <p className="text-[10px] text-slate-400 font-medium leading-none">Construction Management</p>
-            </div>
-          </div>
-
-          {/* Benefits copy */}
-          <div className="relative z-10 my-auto">
-            <h2 className="text-3xl font-extrabold text-white leading-tight">
-              Build Better. <br />
-              <span className="text-primary">Manage Smarter.</span>
-            </h2>
-            <p className="mt-3 text-xs text-slate-300 leading-relaxed max-w-sm">
-              Complete control over your projects, budgets, materials and progress – all in one place.
-            </p>
-
-            {/* Benefit bullet list */}
-            <div className="mt-8 space-y-4">
-              <div className="flex items-start gap-4 rounded-xl bg-white/5 border border-white/10 p-3 backdrop-blur-sm max-w-sm">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400">
-                  <Wallet className="h-4 w-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-white">Track Every Rupee</h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Budget planning, real-time expenses and cost control.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 rounded-xl bg-white/5 border border-white/10 p-3 backdrop-blur-sm max-w-sm">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/10 text-green-400">
-                  <Package className="h-4 w-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-white">Manage Materials</h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Real-time stock, usage tracking and smart alerts.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 rounded-xl bg-white/5 border border-white/10 p-3 backdrop-blur-sm max-w-sm">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/10 text-orange-400">
-                  <Clock className="h-4 w-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-white">Deliver On Time</h4>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Monitor progress, tasks and daily site activities.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer copyright */}
-          <div className="relative z-10 text-[10px] text-slate-500 font-medium">
-            &copy; 2026 BuildTrack Inc. All rights reserved.
-          </div>
+    <div className="flex min-h-screen">
+      {/* Brand panel */}
+      <div
+        className="relative hidden w-1/2 flex-col justify-between overflow-hidden bg-ink p-10 lg:flex xl:p-14"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      >
+        <div className="relative z-10">
+          <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-canvas">
+            Platform Login
+          </span>
         </div>
 
-        {/* Right Side Panel - Authentication Form */}
-        <div className="flex w-full flex-col justify-center px-6 py-10 sm:px-12 md:w-1/2">
-          {/* Header */}
+        <div className="relative z-10 my-auto max-w-md">
+          <h1 className="text-display-lg font-normal leading-tight text-canvas">
+            Manage your projects.
+            <br />
+            Build with clarity.
+          </h1>
+          <p className="mt-6 text-sm text-muted-soft">Just 2 simple steps</p>
+
+          <ol className="mt-8 space-y-5">
+            {STEPS.map((step) => (
+              <li key={step.number} className="flex items-center gap-4">
+                <span
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+                    step.active
+                      ? 'bg-canvas text-ink'
+                      : 'border border-white/25 bg-white/10 text-canvas/70'
+                  }`}
+                >
+                  {step.number}
+                </span>
+                <span className={`text-sm ${step.active ? 'text-canvas' : 'text-muted-soft'}`}>
+                  {step.label}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+            <Building2 className="h-4 w-4 text-white" />
+          </div>
+          <span className="text-sm font-medium text-canvas/80">BuildTrack</span>
+        </div>
+      </div>
+
+      {/* Sign-in form */}
+      <div className="flex w-full flex-col justify-between bg-surface-card px-6 py-10 sm:px-12 lg:w-1/2 lg:px-16 xl:px-20">
+        <div className="flex items-center gap-2.5 lg:hidden">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+            <Building2 className="h-4 w-4 text-white" />
+          </div>
+          <span className="text-base font-normal text-ink tracking-tight">BuildTrack</span>
+        </div>
+
+        <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-8">
           <div className="mb-8">
-            <h3 className="text-2xl font-extrabold text-slate-800 tracking-tight">Welcome Back! 👋</h3>
-            <p className="text-xs text-slate-400 mt-1">Sign in to continue to BuildTrack</p>
+            <h2 className="text-display-sm font-normal tracking-tight text-ink">
+              Your workspace starts here
+            </h2>
+            <p className="mt-2 text-sm text-muted">Use your email and password</p>
+            <p className="mt-1 text-xs text-muted-soft">
+              Demo: <span className="font-medium text-body">arjun@buildtrack.com</span> / password123
+            </p>
           </div>
 
-          {/* Alert Notification */}
           {error && (
-            <div className="mb-6 rounded-lg bg-red-50 border border-red-100 p-3 text-xs font-medium text-red-600">
+            <div className="mb-6 rounded-md border border-hairline bg-canvas-soft p-3 text-sm text-error">
               {error}
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Email Address</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                  <Mail className="h-4.5 w-4.5" />
-                </div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  className="block w-full rounded-lg border border-slate-200 pl-10 pr-4 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-                />
-              </div>
+              <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-ink">
+                Email
+              </label>
+              <input
+                id="email"
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email or username"
+                required
+                autoComplete="username"
+                className="text-input text-sm"
+              />
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold text-slate-700">Password</label>
-              </div>
+              <label htmlFor="password" className="mb-1.5 block text-sm font-semibold text-ink">
+                Password
+              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                  <Lock className="h-4.5 w-4.5" />
-                </div>
                 <input
+                  id="password"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="Password"
                   required
-                  className="block w-full rounded-lg border border-slate-200 pl-10 pr-10 py-2.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+                  autoComplete="current-password"
+                  className="text-input pr-11 text-sm"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-muted-soft transition-colors hover:text-body"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs pt-1">
-              <label className="flex items-center gap-2 text-slate-500 font-semibold cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-slate-300 text-primary focus:ring-primary h-3.5 w-3.5"
-                />
-                Remember me
-              </label>
-              <a href="#" className="font-bold text-primary hover:text-primary-hover">Forgot Password?</a>
-            </div>
-
             <button
               type="submit"
               disabled={loading}
-              className="mt-6 flex w-full items-center justify-center rounded-lg bg-primary py-2.5 text-xs font-bold text-white hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors disabled:opacity-50"
+              className="btn-primary mt-2 h-12 w-full text-sm font-semibold uppercase tracking-wide"
             >
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
-
-          {/* Social login option */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-150"></div>
-            </div>
-            <div className="relative flex justify-center text-[10px] uppercase">
-              <span className="bg-white px-3 font-semibold text-slate-400">or continue with</span>
-            </div>
-          </div>
-
-          <button
-            onClick={handleLogin}
-            type="button"
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors shadow-premium"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24">
-              <path fill="#EA4335" d="M12 5.04c1.62 0 3.08.56 4.22 1.65l3.15-3.15C17.45 1.76 14.96 1 12 1 7.35 1 3.4 3.65 1.5 7.5l3.65 2.83C6.01 7.21 8.78 5.04 12 5.04z" />
-              <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.46h6.44c-.28 1.47-1.11 2.72-2.36 3.56l3.65 2.83c2.14-1.97 3.36-4.87 3.36-8.49z" />
-              <path fill="#FBBC05" d="M5.15 14.67c-.24-.72-.38-1.49-.38-2.28s.14-1.56.38-2.28L1.5 7.28C.54 9.22 0 11.36 0 13.62s.54 4.4 1.5 6.34l3.65-2.83c-.24-.72-.38-1.49-.38-2.28z" />
-              <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.92l-3.65-2.83c-1.01.68-2.3 1.09-3.96 1.09-3.22 0-5.99-2.17-6.96-5.28L1.74 15.9c1.9 3.85 5.85 6.5 10.26 6.5z" />
-            </svg>
-            Sign in with Google
-          </button>
-
-          {/* Footer contact */}
-          <p className="mt-8 text-center text-[10px] text-slate-400 font-medium">
-            Don't have an account? <span className="font-bold text-primary cursor-pointer hover:underline">Contact Administrator</span>
-          </p>
         </div>
+
+        <p className="mx-auto w-full max-w-md text-center text-xs text-muted-soft">
+          &copy; 2026 BuildTrack
+        </p>
       </div>
     </div>
   );

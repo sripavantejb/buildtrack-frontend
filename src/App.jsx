@@ -82,10 +82,10 @@ function WorkspaceWrapper() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-50">
+      <div className="flex h-screen items-center justify-center bg-canvas">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-          <span className="text-sm font-medium text-slate-500">Loading project workspace...</span>
+          <span className="text-sm font-medium text-muted">Loading project workspace...</span>
         </div>
       </div>
     );
@@ -93,13 +93,10 @@ function WorkspaceWrapper() {
 
   if (error || !project) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-50">
-        <h2 className="text-xl font-bold text-slate-800">Project Not Accessible</h2>
-        <p className="text-sm text-slate-500">{error || "The requested project could not be found."}</p>
-        <button 
-          onClick={() => navigate('/')} 
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-hover transition-colors"
-        >
+      <div className="flex h-screen flex-col items-center justify-center gap-4 bg-canvas">
+        <h2 className="text-xl font-semibold text-ink">Project Not Accessible</h2>
+        <p className="text-sm text-muted">{error || "The requested project could not be found."}</p>
+        <button onClick={() => navigate('/')} className="btn-primary">
           Return to Dashboard
         </button>
       </div>

@@ -24,11 +24,11 @@ const statusNames = {
 };
 
 const statusColors = {
-  requested: 'bg-blue-500 border-blue-200 text-blue-500',
+  requested: 'bg-timeline-read border-blue-200 text-timeline-read',
   approved: 'bg-purple-500 border-purple-200 text-purple-500',
-  vendor_assigned: 'bg-indigo-500 border-indigo-200 text-indigo-500',
-  po_created: 'bg-amber-500 border-amber-200 text-amber-500',
-  delivered: 'bg-green-500 border-green-200 text-green-500'
+  vendor_assigned: 'bg-canvas-soft border-hairline text-primary',
+  po_created: 'bg-timeline-thinking/200 border-amber-200 text-amber-500',
+  delivered: 'bg-success border-green-200 text-success'
 };
 
 export default function Procurement({ project }) {
@@ -138,11 +138,11 @@ export default function Procurement({ project }) {
   };
 
   const columns = [
-    { id: 'requested', title: 'Requested', color: 'border-t-blue-500 bg-blue-500/5' },
+    { id: 'requested', title: 'Requested', color: 'border-t-blue-500 bg-timeline-read/5' },
     { id: 'approved', title: 'Approved', color: 'border-t-purple-500 bg-purple-500/5' },
-    { id: 'vendor_assigned', title: 'Vendor Assigned', color: 'border-t-indigo-500 bg-indigo-500/5' },
-    { id: 'po_created', title: 'PO Created', color: 'border-t-amber-500 bg-amber-500/5' },
-    { id: 'delivered', title: 'Delivered', color: 'border-t-green-500 bg-green-500/5' }
+    { id: 'vendor_assigned', title: 'Vendor Assigned', color: 'border-t-primary bg-canvas-soft/5' },
+    { id: 'po_created', title: 'PO Created', color: 'border-t-amber-500 bg-timeline-thinking/200/5' },
+    { id: 'delivered', title: 'Delivered', color: 'border-t-green-500 bg-success/5' }
   ];
 
   return (
@@ -151,20 +151,20 @@ export default function Procurement({ project }) {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-extrabold text-slate-800">Procurement Workflow</h2>
-          <p className="text-[10px] text-slate-400 font-medium">Coordinate orders and verify supplier deliveries through visual columns.</p>
+          <h2 className="text-base font-normal text-ink">Procurement Workflow</h2>
+          <p className="text-[10px] text-muted-soft font-medium">Coordinate orders and verify supplier deliveries through visual columns.</p>
         </div>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => setShowPageHistoryModal(true)}
-            className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-premium transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3.5 py-1.5 text-xs font-semibold text-ink hover:bg-canvas transition-colors"
           >
-            <Clock className="h-4 w-4 text-slate-500" />
+            <Clock className="h-4 w-4 text-muted" />
             <span>Workflow History</span>
           </button>
           <button 
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+            className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
           >
             <Plus className="h-4 w-4" />
             <span>New Requisition</span>
@@ -184,12 +184,12 @@ export default function Procurement({ project }) {
             return (
               <div 
                 key={col.id} 
-                className={`rounded-xl border border-slate-200 border-t-4 ${col.color} p-4 flex flex-col min-w-[200px] h-full`}
+                className={`rounded-lg border border-hairline border-t-4 ${col.color} p-4 flex flex-col min-w-[200px] h-full`}
               >
                 {/* Column header */}
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100/50">
-                  <h4 className="text-xs font-bold text-slate-700">{col.title}</h4>
-                  <span className="rounded bg-slate-200/60 px-1.5 py-0.5 text-[10px] font-bold text-slate-650">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-hairline-soft/50">
+                  <h4 className="text-xs font-semibold text-ink">{col.title}</h4>
+                  <span className="rounded bg-hairline/60 px-1.5 py-0.5 text-[10px] font-bold text-body">
                     {colItems.length}
                   </span>
                 </div>
@@ -199,39 +199,39 @@ export default function Procurement({ project }) {
                   {colItems.map((item) => (
                     <div 
                       key={item.id} 
-                      className="rounded-lg border border-slate-200 bg-white p-3.5 shadow-premium space-y-3"
+                      className="rounded-lg border border-hairline bg-surface-card p-3.5 space-y-3"
                     >
                       <div>
-                        <h5 className="text-xs font-bold text-slate-800 leading-snug">{item.material}</h5>
-                        <div className="mt-1 flex items-center justify-between text-[10px] font-semibold text-slate-400">
-                          <span>Qty: <span className="text-slate-650 font-bold">{item.quantity.toLocaleString()} {item.unit}</span></span>
+                        <h5 className="text-xs font-semibold text-ink leading-snug">{item.material}</h5>
+                        <div className="mt-1 flex items-center justify-between text-[10px] font-semibold text-muted-soft">
+                          <span>Qty: <span className="text-body font-bold">{item.quantity.toLocaleString()} {item.unit}</span></span>
                           <span>{formatRupees(item.cost)}</span>
                         </div>
                       </div>
 
-                      <div className="border-t border-slate-100 pt-2.5 space-y-1 text-[9px] font-semibold text-slate-500">
+                      <div className="border-t border-hairline-soft pt-2.5 space-y-1 text-[9px] font-semibold text-muted">
                         <div className="flex items-center gap-1">
-                          <Building className="h-3 w-3 text-slate-400" />
+                          <Building className="h-3 w-3 text-muted-soft" />
                           <span className="truncate">Vendor: {item.vendor}</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <User className="h-3 w-3 text-slate-400" />
+                          <User className="h-3 w-3 text-muted-soft" />
                           <span className="truncate">By: {item.requestedBy}</span>
                         </div>
                         {item.date && (
                           <div className="flex items-center gap-1">
-                            <Clock className="h-3 w-3 text-slate-400" />
+                            <Clock className="h-3 w-3 text-muted-soft" />
                             <span className="truncate">Updated: {item.date}</span>
                           </div>
                         )}
                       </div>
 
                       {/* Direction Transition Actions */}
-                      <div className="flex items-center justify-between border-t border-slate-100 pt-2 text-[9px] font-bold">
+                      <div className="flex items-center justify-between border-t border-hairline-soft pt-2 text-[9px] font-bold">
                         <button 
                           disabled={col.id === 'requested'}
                           onClick={() => handleTransitionStatus(item.id, item.status, -1)}
-                          className="flex h-5 w-5 items-center justify-center rounded border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors disabled:opacity-30"
+                          className="flex h-5 w-5 items-center justify-center rounded border border-hairline text-muted hover:bg-canvas transition-colors disabled:opacity-30"
                         >
                           <ArrowLeft className="h-3 w-3" />
                         </button>
@@ -240,14 +240,14 @@ export default function Procurement({ project }) {
                             setSelectedItem(item);
                             setShowHistoryModal(true);
                           }}
-                          className="px-2 py-0.5 rounded text-primary hover:bg-primary/5 transition-colors border border-primary/20 text-[8px] uppercase tracking-wider font-extrabold"
+                          className="px-2 py-0.5 rounded text-primary hover:bg-primary/5 transition-colors border border-primary/20 text-[8px] uppercase tracking-wider font-normal"
                         >
                           History
                         </button>
                         <button 
                           disabled={col.id === 'delivered'}
                           onClick={() => handleTransitionStatus(item.id, item.status, 1)}
-                          className="flex h-5 w-5 items-center justify-center rounded border border-slate-200 text-slate-500 hover:bg-slate-50 transition-colors disabled:opacity-30"
+                          className="flex h-5 w-5 items-center justify-center rounded border border-hairline text-muted hover:bg-canvas transition-colors disabled:opacity-30"
                         >
                           <ArrowRight className="h-3 w-3" />
                         </button>
@@ -256,7 +256,7 @@ export default function Procurement({ project }) {
                   ))}
 
                   {colItems.length === 0 && (
-                    <div className="h-24 flex items-center justify-center border border-dashed rounded-lg text-slate-350 text-[10px] font-medium">
+                    <div className="h-24 flex items-center justify-center border border-dashed rounded-lg text-muted-soft text-[10px] font-medium">
                       No orders
                     </div>
                   )}
@@ -269,18 +269,18 @@ export default function Procurement({ project }) {
 
       {/* Add Procurement Request Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown">
-            <h3 className="text-sm font-bold text-slate-800">New Requisition Order</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-sm rounded-lg border border-hairline-soft bg-surface-card p-6">
+            <h3 className="text-sm font-semibold text-ink">New Requisition Order</h3>
             
             <form onSubmit={handleCreateRequest} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Select Material</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Select Material</label>
                 <select
                   required
                   value={newRequest.materialName}
                   onChange={e => setNewRequest({...newRequest, materialName: e.target.value})}
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 >
                   <option value="">-- Choose Material --</option>
                   {materials.map(m => (
@@ -291,37 +291,37 @@ export default function Procurement({ project }) {
 
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Quantity</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Quantity</label>
                   <input 
                     type="number" 
                     required
                     value={newRequest.quantity}
                     onChange={e => setNewRequest({...newRequest, quantity: e.target.value})}
                     placeholder="e.g. 500"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Unit Rate (₹)</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Unit Rate (₹)</label>
                   <input 
                     type="number" 
                     value={newRequest.unitRate}
                     onChange={e => setNewRequest({...newRequest, unitRate: e.target.value})}
                     placeholder="e.g. 450"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Vendor Assignment</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Vendor Assignment</label>
                 <input 
                   type="text" 
                   required
                   value={newRequest.vendor}
                   onChange={e => setNewRequest({...newRequest, vendor: e.target.value})}
                   placeholder="e.g. UltraTech Cements"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
@@ -329,13 +329,13 @@ export default function Procurement({ project }) {
                 <button 
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
                 >
                   Submit Requisition
                 </button>
@@ -347,16 +347,16 @@ export default function Procurement({ project }) {
 
       {/* History Timeline Modal */}
       {showHistoryModal && selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-md rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown flex flex-col max-h-[85vh]">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-md rounded-lg border border-hairline-soft bg-surface-card p-6 flex flex-col max-h-[85vh]">
+            <div className="flex items-center justify-between pb-3 border-b border-hairline">
               <div>
-                <h3 className="text-sm font-bold text-slate-800">Requisition History</h3>
-                <p className="text-[10px] text-slate-400 font-semibold mt-0.5">{selectedItem.material} ({selectedItem.quantity.toLocaleString()} {selectedItem.unit})</p>
+                <h3 className="text-sm font-semibold text-ink">Requisition History</h3>
+                <p className="text-[10px] text-muted-soft font-semibold mt-0.5">{selectedItem.material} ({selectedItem.quantity.toLocaleString()} {selectedItem.unit})</p>
               </div>
               <button 
                 onClick={() => { setShowHistoryModal(false); setSelectedItem(null); }}
-                className="text-slate-450 hover:text-slate-700 text-sm font-bold px-2 py-1"
+                className="text-muted hover:text-ink text-sm font-bold px-2 py-1"
               >
                 ✕
               </button>
@@ -365,39 +365,39 @@ export default function Procurement({ project }) {
             {/* Vertical Timeline Container */}
             <div className="mt-4 flex-1 overflow-y-auto pr-1 py-2 space-y-6 relative">
               {/* Vertical dotted/solid line */}
-              <div className="absolute left-3 top-2 bottom-4 w-0.5 bg-slate-100 border-l border-dashed border-slate-350"></div>
+              <div className="absolute left-3 top-2 bottom-4 w-0.5 bg-canvas-soft border-l border-dashed border-hairline-strong"></div>
 
               {(selectedItem.history || []).map((event, index) => {
                 const statusName = statusNames[event.status] || event.status;
-                const colorClass = statusColors[event.status] || 'bg-slate-400 border-slate-200';
+                const colorClass = statusColors[event.status] || 'bg-muted-soft border-hairline';
                 
                 return (
                   <div key={index} className="relative pl-8 flex flex-col gap-1">
                     {/* Timeline dot */}
-                    <div className={`absolute left-1.5 top-1 h-3.5 w-3.5 rounded-full border-2 border-white shadow-md ${colorClass.split(' ')[0]}`} />
+                    <div className={`absolute left-1.5 top-1 h-3.5 w-3.5 rounded-full border-2 border-white ${colorClass.split(' ')[0]}`} />
                     
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">
+                      <span className="text-xs font-normal text-ink uppercase tracking-wide">
                         {statusName}
                       </span>
-                      <span className="text-[9px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100">
+                      <span className="text-[9px] font-bold text-muted-soft bg-canvas px-1.5 py-0.5 rounded border border-hairline-soft">
                         {event.date}
                       </span>
                     </div>
-                    <div className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                      <User className="h-3 w-3 text-slate-400" />
-                      <span>Updated by <span className="font-semibold text-slate-700">{event.user}</span></span>
+                    <div className="text-[10px] text-muted font-medium flex items-center gap-1">
+                      <User className="h-3 w-3 text-muted-soft" />
+                      <span>Updated by <span className="font-semibold text-ink">{event.user}</span></span>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="mt-6 pt-3 border-t border-slate-100 flex justify-end">
+            <div className="mt-6 pt-3 border-t border-hairline-soft flex justify-end">
               <button
                 type="button"
                 onClick={() => { setShowHistoryModal(false); setSelectedItem(null); }}
-                className="rounded-lg bg-slate-800 px-4 py-1.5 text-xs font-bold text-white hover:bg-slate-750 shadow-premium transition-colors"
+                className="rounded-lg bg-ink px-4 py-1.5 text-xs font-bold text-white hover:opacity-90 transition-colors"
               >
                 Close
               </button>
@@ -408,16 +408,16 @@ export default function Procurement({ project }) {
 
       {/* Global Page History Modal */}
       {showPageHistoryModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown flex flex-col max-h-[85vh]">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-lg rounded-lg border border-hairline-soft bg-surface-card p-6 flex flex-col max-h-[85vh]">
+            <div className="flex items-center justify-between pb-3 border-b border-hairline">
               <div>
-                <h3 className="text-sm font-bold text-slate-800">Procurement Workflow History</h3>
-                <p className="text-[10px] text-slate-400 font-semibold mt-0.5">Timeline of all requisition actions and delivery events</p>
+                <h3 className="text-sm font-semibold text-ink">Procurement Workflow History</h3>
+                <p className="text-[10px] text-muted-soft font-semibold mt-0.5">Timeline of all requisition actions and delivery events</p>
               </div>
               <button 
                 onClick={() => setShowPageHistoryModal(false)}
-                className="text-slate-450 hover:text-slate-700 text-sm font-bold px-2 py-1"
+                className="text-muted hover:text-ink text-sm font-bold px-2 py-1"
               >
                 ✕
               </button>
@@ -426,46 +426,46 @@ export default function Procurement({ project }) {
             {/* Scrollable vertical timeline */}
             <div className="mt-4 flex-1 overflow-y-auto pr-1 py-2 space-y-6 relative min-h-[300px]">
               {getGlobalHistory().length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-48 text-slate-400">
-                  <Clock className="h-8 w-8 text-slate-350 mb-2 stroke-[1.5]" />
+                <div className="flex flex-col items-center justify-center h-48 text-muted-soft">
+                  <Clock className="h-8 w-8 text-muted-soft mb-2 stroke-[1.5]" />
                   <p className="text-xs font-semibold">No workflow history logs found.</p>
                 </div>
               ) : (
                 <>
                   {/* Vertical dotted timeline line */}
-                  <div className="absolute left-3 top-2 bottom-4 w-0.5 bg-slate-100 border-l border-dashed border-slate-350"></div>
+                  <div className="absolute left-3 top-2 bottom-4 w-0.5 bg-canvas-soft border-l border-dashed border-hairline-strong"></div>
                   
                   {getGlobalHistory().map((event, index) => {
                     const statusName = statusNames[event.status] || event.status;
-                    const colorClass = statusColors[event.status] || 'bg-slate-400 border-slate-200';
+                    const colorClass = statusColors[event.status] || 'bg-muted-soft border-hairline';
                     
                     return (
                       <div key={index} className="relative pl-8 flex flex-col gap-1.5">
                         {/* Timeline dot */}
-                        <div className={`absolute left-1.5 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white shadow-md ${colorClass.split(' ')[0]}`} />
+                        <div className={`absolute left-1.5 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white ${colorClass.split(' ')[0]}`} />
                         
                         <div className="flex items-start justify-between gap-4">
                           <div className="space-y-0.5">
                             <div className="flex items-center gap-2">
-                              <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wide">
+                              <span className="text-xs font-normal text-ink uppercase tracking-wide">
                                 {statusName}
                               </span>
-                              <span className="text-[10px] font-bold text-slate-700">
+                              <span className="text-[10px] font-semibold text-ink">
                                 {event.materialName}
                               </span>
                             </div>
-                            <p className="text-[10px] text-slate-500 font-medium">
-                              Quantity: <span className="font-semibold text-slate-700">{event.quantity.toLocaleString()} {event.unit}</span> | Vendor: <span className="font-semibold text-slate-700">{event.vendor}</span>
+                            <p className="text-[10px] text-muted font-medium">
+                              Quantity: <span className="font-semibold text-ink">{event.quantity.toLocaleString()} {event.unit}</span> | Vendor: <span className="font-semibold text-ink">{event.vendor}</span>
                             </p>
                           </div>
-                          <span className="text-[9px] font-bold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 shrink-0">
+                          <span className="text-[9px] font-bold text-muted-soft bg-canvas px-1.5 py-0.5 rounded border border-hairline-soft shrink-0">
                             {event.date}
                           </span>
                         </div>
                         
-                        <div className="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                          <User className="h-3 w-3 text-slate-400" />
-                          <span>Action by <span className="font-semibold text-slate-700">{event.user}</span></span>
+                        <div className="text-[10px] text-muted font-medium flex items-center gap-1">
+                          <User className="h-3 w-3 text-muted-soft" />
+                          <span>Action by <span className="font-semibold text-ink">{event.user}</span></span>
                         </div>
                       </div>
                     );
@@ -474,11 +474,11 @@ export default function Procurement({ project }) {
               )}
             </div>
 
-            <div className="mt-6 pt-3 border-t border-slate-100 flex justify-end">
+            <div className="mt-6 pt-3 border-t border-hairline-soft flex justify-end">
               <button
                 type="button"
                 onClick={() => setShowPageHistoryModal(false)}
-                className="rounded-lg bg-slate-800 px-4 py-1.5 text-xs font-bold text-white hover:bg-slate-750 shadow-premium transition-colors"
+                className="rounded-lg bg-ink px-4 py-1.5 text-xs font-bold text-white hover:opacity-90 transition-colors"
               >
                 Close History
               </button>

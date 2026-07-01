@@ -484,14 +484,14 @@ export default function ProjectPlanning({ project, setProject }) {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-extrabold text-slate-800">Project Planning</h2>
-          <p className="text-[10px] text-slate-400 font-medium">Define project details, phases, and baseline material plan.</p>
+          <h2 className="text-base font-normal text-ink">Project Planning</h2>
+          <p className="text-[10px] text-muted-soft font-medium">Define project details, phases, and baseline material plan.</p>
         </div>
         <div className="flex items-center gap-2">
           {isEditingDetails ? (
             <button 
               onClick={handleSaveDetails}
-              className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+              className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
             >
               <Check className="h-3.5 w-3.5" />
               Save Details
@@ -499,9 +499,9 @@ export default function ProjectPlanning({ project, setProject }) {
           ) : (
             <button 
               onClick={() => setIsEditingDetails(true)}
-              className="flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 shadow-premium transition-colors"
+              className="flex items-center gap-1 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"
             >
-              <Edit2 className="h-3.5 w-3.5 text-slate-400" />
+              <Edit2 className="h-3.5 w-3.5 text-muted-soft" />
               Edit Details
             </button>
           )}
@@ -509,100 +509,100 @@ export default function ProjectPlanning({ project, setProject }) {
       </div>
 
       {/* Project Details Grid */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
-        <h4 className="text-xs font-bold text-slate-800 mb-4">Project Details</h4>
+      <div className="rounded-lg border border-hairline bg-surface-card p-5">
+        <h4 className="text-xs font-semibold text-ink mb-4">Project Details</h4>
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-500">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-timeline-read/20 text-timeline-read">
               <Building className="h-4.5 w-4.5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Area (SFT)</p>
+              <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Area (SFT)</p>
               {isEditingDetails ? (
                 <input 
                   type="number"
                   value={details.area || ''}
                   onChange={e => setDetails({ ...details, area: e.target.value })}
-                  className="mt-0.5 w-full rounded border border-slate-200 px-1 py-0.5 text-xs font-bold focus:outline-none"
+                  className="mt-0.5 w-full rounded border border-hairline px-1 py-0.5 text-xs font-bold focus:outline-none"
                 />
               ) : (
-                <p className="text-xs font-bold text-slate-700 mt-0.5">{Number(project.area || 0).toLocaleString()} SFT</p>
+                <p className="text-xs font-semibold text-ink mt-0.5">{Number(project.area || 0).toLocaleString()} SFT</p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-canvas-soft text-primary">
               <Calendar className="h-4.5 w-4.5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Duration</p>
+              <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Duration</p>
               {isEditingDetails ? (
                 <input 
                   type="text"
                   value={details.duration || ''}
                   onChange={e => setDetails({ ...details, duration: e.target.value })}
-                  className="mt-0.5 w-full rounded border border-slate-200 px-1 py-0.5 text-xs font-bold focus:outline-none"
+                  className="mt-0.5 w-full rounded border border-hairline px-1 py-0.5 text-xs font-bold focus:outline-none"
                 />
               ) : (
-                <p className="text-xs font-bold text-slate-700 mt-0.5">{project.duration}</p>
+                <p className="text-xs font-semibold text-ink mt-0.5">{project.duration}</p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-500">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-timeline-grep/20 text-success">
               <Calendar className="h-4.5 w-4.5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Start Date</p>
+              <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Start Date</p>
               {isEditingDetails ? (
                 <input 
                   type="date"
                   value={details.startDate || ''}
                   onChange={e => setDetails({ ...details, startDate: e.target.value })}
-                  className="mt-0.5 w-full rounded border border-slate-200 px-1 py-0.5 text-xs focus:outline-none"
+                  className="mt-0.5 w-full rounded border border-hairline px-1 py-0.5 text-xs focus:outline-none"
                 />
               ) : (
-                <p className="text-xs font-bold text-slate-700 mt-0.5">{project.startDate}</p>
+                <p className="text-xs font-semibold text-ink mt-0.5">{project.startDate}</p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-500">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-canvas-soft text-error">
               <Calendar className="h-4.5 w-4.5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">End Date</p>
+              <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">End Date</p>
               {isEditingDetails ? (
                 <input 
                   type="date"
                   value={details.endDate || ''}
                   onChange={e => setDetails({ ...details, endDate: e.target.value })}
-                  className="mt-0.5 w-full rounded border border-slate-200 px-1 py-0.5 text-xs focus:outline-none"
+                  className="mt-0.5 w-full rounded border border-hairline px-1 py-0.5 text-xs focus:outline-none"
                 />
               ) : (
-                <p className="text-xs font-bold text-slate-700 mt-0.5">{project.endDate}</p>
+                <p className="text-xs font-semibold text-ink mt-0.5">{project.endDate}</p>
               )}
             </div>
           </div>
 
           <div className="flex items-center gap-3 lg:col-span-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-50 text-orange-500">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-timeline-thinking/20 text-timeline-done">
               <DollarSign className="h-4.5 w-4.5" />
             </div>
             <div>
-              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Total Budget</p>
+              <p className="text-[9px] font-bold text-muted-soft uppercase tracking-wider">Total Budget</p>
               {isEditingDetails ? (
                 <input 
                   type="number"
                   value={details.budget || ''}
                   onChange={e => setDetails({ ...details, budget: e.target.value })}
-                  className="mt-0.5 w-full rounded border border-slate-200 px-1 py-0.5 text-xs font-bold focus:outline-none"
+                  className="mt-0.5 w-full rounded border border-hairline px-1 py-0.5 text-xs font-bold focus:outline-none"
                 />
               ) : (
-                <p className="text-xs font-black text-slate-700 mt-0.5">{formatRupees(project.budget)}</p>
+                <p className="text-xs font-black text-ink mt-0.5">{formatRupees(project.budget)}</p>
               )}
             </div>
           </div>
@@ -610,9 +610,9 @@ export default function ProjectPlanning({ project, setProject }) {
       </div>
 
       {/* Project Phases */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium">
+      <div className="rounded-lg border border-hairline bg-surface-card p-5">
         <div className="flex items-center justify-between mb-4">
-          <h4 className="text-xs font-bold text-slate-800">Project Phases</h4>
+          <h4 className="text-xs font-semibold text-ink">Project Phases</h4>
           <button 
             onClick={() => setShowAddPhase(true)}
             className="flex items-center gap-1 text-[10px] font-bold text-primary hover:text-primary-hover"
@@ -625,50 +625,50 @@ export default function ProjectPlanning({ project, setProject }) {
         <div className="grid gap-4 sm:grid-cols-3">
           {phases.length > 0 ? (
             phases.map((ph, idx) => (
-              <div key={ph.id || idx} className="rounded-xl border border-slate-200/80 p-4 relative bg-slate-50/20">
+              <div key={ph.id || idx} className="rounded-lg border border-hairline p-4 relative bg-canvas/20">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-bold text-slate-400">Phase {idx + 1}</span>
+                  <span className="text-[9px] font-bold text-muted-soft">Phase {idx + 1}</span>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={() => handleStartEditPhase(ph)}
-                      className="text-slate-400 hover:text-primary transition-colors p-0.5 rounded hover:bg-slate-105"
+                      className="text-muted-soft hover:text-primary transition-colors p-0.5 rounded hover:bg-canvas-soft"
                       title="Edit Phase"
                     >
                       <Edit2 className="h-3.5 w-3.5" />
                     </button>
                     <button 
                       onClick={() => handleDeletePhase(ph.id)}
-                      className="text-slate-400 hover:text-red-500 transition-colors p-0.5 rounded hover:bg-slate-105"
+                      className="text-muted-soft hover:text-error transition-colors p-0.5 rounded hover:bg-canvas-soft"
                       title="Delete Phase"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
                     <span className={`rounded px-1.5 py-0.5 text-[8px] font-bold ${
-                      ph.status === 'Active' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-slate-100 text-slate-500'
+                      ph.status === 'Active' ? 'bg-timeline-grep/20 text-success border border-hairline' : 'bg-canvas-soft text-muted'
                     }`}>
                       {ph.status}
                     </span>
                   </div>
                 </div>
-                <h5 className="mt-2 text-xs font-bold text-slate-700">{ph.name}</h5>
-                <div className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-3 text-[10px] font-semibold text-slate-500">
+                <h5 className="mt-2 text-xs font-semibold text-ink">{ph.name}</h5>
+                <div className="mt-4 grid grid-cols-3 gap-2 border-t border-hairline-soft pt-3 text-[10px] font-semibold text-muted">
                   <div>
-                    <p className="text-[8px] text-slate-400">Target Area</p>
-                    <p className="mt-0.5 text-slate-700">{ph.targetArea}</p>
+                    <p className="text-[8px] text-muted-soft">Target Area</p>
+                    <p className="mt-0.5 text-ink">{ph.targetArea}</p>
                   </div>
                   <div>
-                    <p className="text-[8px] text-slate-400">Duration</p>
-                    <p className="mt-0.5 text-slate-700 truncate">{ph.duration.split(' ')[2] || ph.duration}</p>
+                    <p className="text-[8px] text-muted-soft">Duration</p>
+                    <p className="mt-0.5 text-ink truncate">{ph.duration.split(' ')[2] || ph.duration}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[8px] text-slate-400">Budget</p>
-                    <p className="mt-0.5 text-slate-700">{formatRupees(ph.budget)}</p>
+                    <p className="text-[8px] text-muted-soft">Budget</p>
+                    <p className="mt-0.5 text-ink">{formatRupees(ph.budget)}</p>
                   </div>
                 </div>
               </div>
             ))
           ) : (
-            <div className="col-span-3 py-6 text-center text-xs text-slate-400 border border-dashed rounded-lg">
+            <div className="col-span-3 py-6 text-center text-xs text-muted-soft border border-dashed rounded-lg">
               No phases defined for this project.
             </div>
           )}
@@ -676,11 +676,11 @@ export default function ProjectPlanning({ project, setProject }) {
       </div>
 
       {/* Planned Materials Baseline Matrix */}
-      <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-premium overflow-hidden">
+      <div className="rounded-lg border border-hairline bg-surface-card p-5 overflow-hidden">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
-            <h4 className="text-xs font-bold text-slate-800">Planned Materials (Baseline)</h4>
-            <p className="text-[9px] text-slate-400 font-semibold mt-0.5">Baseline estimation quantity and costing for materials</p>
+            <h4 className="text-xs font-semibold text-ink">Planned Materials (Baseline)</h4>
+            <p className="text-[9px] text-muted-soft font-semibold mt-0.5">Baseline estimation quantity and costing for materials</p>
           </div>
           <div className="flex items-center gap-2 relative">
             {/* Filter Dropdown */}
@@ -688,19 +688,19 @@ export default function ProjectPlanning({ project, setProject }) {
               <button
                 id="filter-materials-btn"
                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-bold text-slate-650 hover:bg-slate-50 shadow-premium transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors"
               >
-                <Filter className="h-3.5 w-3.5 text-slate-400" />
+                <Filter className="h-3.5 w-3.5 text-muted-soft" />
                 <span>Filter Rows ({materials.length - hiddenMaterialIds.length}/{materials.length})</span>
               </button>
 
               {showFilterDropdown && (
-                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-xl border border-slate-150 bg-white p-3 shadow-dropdown flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-hairline-soft text-[10px] font-bold text-muted-soft uppercase tracking-wider">
                     <span>Show/Hide Rows</span>
                     <div className="flex gap-2 text-primary lowercase font-semibold">
                       <button onClick={handleSelectAllMaterials} className="hover:underline">All</button>
-                      <span className="text-slate-200">|</span>
+                      <span className="text-hairline">|</span>
                       <button onClick={handleDeselectAllMaterials} className="hover:underline">None</button>
                     </div>
                   </div>
@@ -711,13 +711,13 @@ export default function ProjectPlanning({ project, setProject }) {
                       return (
                         <label 
                           key={mat.id}
-                          className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-slate-50 cursor-pointer text-xs font-semibold text-slate-700 transition-colors"
+                          className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-canvas cursor-pointer text-xs font-semibold text-ink transition-colors"
                         >
                           <input 
                             type="checkbox"
                             checked={isVisible}
                             onChange={() => toggleMaterialVisibility(mat.id)}
-                            className="h-3.5 w-3.5 rounded border-slate-300 text-primary focus:ring-primary focus:ring-0 cursor-pointer"
+                            className="h-3.5 w-3.5 rounded border-hairline-strong text-primary focus:ring-primary focus:ring-0 cursor-pointer"
                           />
                           <span className="truncate">{mat.name}</span>
                         </label>
@@ -733,19 +733,19 @@ export default function ProjectPlanning({ project, setProject }) {
               <button
                 id="filter-columns-btn"
                 onClick={() => setShowColFilterDropdown(!showColFilterDropdown)}
-                className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-bold text-slate-650 hover:bg-slate-50 shadow-premium transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors"
               >
-                <Filter className="h-3.5 w-3.5 text-slate-400" />
+                <Filter className="h-3.5 w-3.5 text-muted-soft" />
                 <span>Filter Columns ({allColumns.length - hiddenColumnIds.length}/{allColumns.length})</span>
               </button>
 
               {showColFilterDropdown && (
-                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-xl border border-slate-150 bg-white p-3 shadow-dropdown flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-hairline-soft text-[10px] font-bold text-muted-soft uppercase tracking-wider">
                     <span>Show/Hide Columns</span>
                     <div className="flex gap-2 text-primary lowercase font-semibold">
                       <button onClick={handleSelectAllColumns} className="hover:underline">All</button>
-                      <span className="text-slate-200">|</span>
+                      <span className="text-hairline">|</span>
                       <button onClick={handleDeselectAllColumns} className="hover:underline">None</button>
                     </div>
                   </div>
@@ -756,13 +756,13 @@ export default function ProjectPlanning({ project, setProject }) {
                       return (
                         <label 
                           key={col.id}
-                          className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-slate-50 cursor-pointer text-xs font-semibold text-slate-700 transition-colors"
+                          className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-canvas cursor-pointer text-xs font-semibold text-ink transition-colors"
                         >
                           <input 
                             type="checkbox"
                             checked={isVisible}
                             onChange={() => toggleColumnVisibility(col.id)}
-                            className="h-3.5 w-3.5 rounded border-slate-300 text-primary focus:ring-primary focus:ring-0 cursor-pointer"
+                            className="h-3.5 w-3.5 rounded border-hairline-strong text-primary focus:ring-primary focus:ring-0 cursor-pointer"
                           />
                           <span className="truncate">{col.name}</span>
                         </label>
@@ -773,8 +773,8 @@ export default function ProjectPlanning({ project, setProject }) {
               )}
             </div>
 
-            <label className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-bold text-slate-600 hover:bg-slate-50 shadow-premium transition-colors cursor-pointer">
-              <Download className="h-3.5 w-3.5 text-slate-400" />
+            <label className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors cursor-pointer">
+              <Download className="h-3.5 w-3.5 text-muted-soft" />
               <span>Import Excel/CSV</span>
               <input 
                 type="file" 
@@ -785,7 +785,7 @@ export default function ProjectPlanning({ project, setProject }) {
             </label>
             <button 
               onClick={() => setShowAddMaterial(true)}
-              className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+              className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-bold text-white hover:bg-primary-active transition-colors"
             >
               <Plus className="h-3.5 w-3.5" />
               <span>Add Material</span>
@@ -794,10 +794,10 @@ export default function ProjectPlanning({ project, setProject }) {
         </div>
 
         {/* Spreadsheet Matrix Table */}
-        <div className="overflow-x-auto border border-slate-100 rounded-lg">
+        <div className="overflow-x-auto border border-hairline-soft rounded-lg">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold">
+              <tr className="bg-canvas border-b border-hairline text-muted font-bold">
                 <th className="py-2.5 px-4 font-bold text-[10px] uppercase w-12 text-center">#</th>
                 {!hiddenColumnIds.includes('material') && <th className="py-2.5 px-3 font-bold text-[10px] uppercase min-w-[150px]">Material</th>}
                 {!hiddenColumnIds.includes('unit') && <th className="py-2.5 px-3 font-bold text-[10px] uppercase w-20">Unit</th>}
@@ -815,17 +815,17 @@ export default function ProjectPlanning({ project, setProject }) {
                 {!hiddenColumnIds.includes('actions') && <th className="py-2.5 px-4 font-bold text-[10px] uppercase text-center w-20">Actions</th>}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+            <tbody className="divide-y divide-hairline-soft font-medium text-ink">
               {loading ? (
                 <tr>
-                  <td colSpan={visibleColumnsCount} className="py-8 text-center text-slate-400">Loading materials baseline matrix...</td>
+                  <td colSpan={visibleColumnsCount} className="py-8 text-center text-muted-soft">Loading materials baseline matrix...</td>
                 </tr>
               ) : displayedMaterials.length > 0 ? (
                 displayedMaterials.map((mat, idx) => (
-                  <tr key={mat.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="py-2 px-4 text-center font-bold text-slate-400">{idx + 1}</td>
-                    {!hiddenColumnIds.includes('material') && <td className="py-2 px-3 font-bold text-slate-800">{mat.name}</td>}
-                    {!hiddenColumnIds.includes('unit') && <td className="py-2 px-3 text-slate-500">{mat.unit}</td>}
+                  <tr key={mat.id} className="hover:bg-canvas/50 transition-colors">
+                    <td className="py-2 px-4 text-center font-bold text-muted-soft">{idx + 1}</td>
+                    {!hiddenColumnIds.includes('material') && <td className="py-2 px-3 font-semibold text-ink">{mat.name}</td>}
+                    {!hiddenColumnIds.includes('unit') && <td className="py-2 px-3 text-muted">{mat.unit}</td>}
                     {phases.map((phase) => {
                       if (hiddenColumnIds.includes(phase.id)) return null;
                       const phaseQty = mat[phase.id] !== undefined ? mat[phase.id] : 0;
@@ -835,7 +835,7 @@ export default function ProjectPlanning({ project, setProject }) {
                             type="number"
                             value={phaseQty}
                             onChange={(e) => handleUpdateMaterialPhaseQty(mat.id, phase.id, e.target.value)}
-                            className="w-16 rounded border border-slate-200 px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
+                            className="w-16 rounded border border-hairline px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
                           />
                         </td>
                       );
@@ -843,13 +843,13 @@ export default function ProjectPlanning({ project, setProject }) {
                     {!hiddenColumnIds.includes('planned') && (
                       <td className="py-2 px-3 text-right">
                         {phases.length > 0 ? (
-                          <span className="font-semibold text-slate-700">{Number(mat.planned || 0).toLocaleString()}</span>
+                          <span className="font-semibold text-ink">{Number(mat.planned || 0).toLocaleString()}</span>
                         ) : (
                           <input 
                             type="number"
                             value={mat.planned}
                             onChange={(e) => handleUpdateMaterialTotalQty(mat.id, e.target.value)}
-                            className="w-16 rounded border border-slate-200 px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
+                            className="w-16 rounded border border-hairline px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
                           />
                         )}
                       </td>
@@ -860,12 +860,12 @@ export default function ProjectPlanning({ project, setProject }) {
                           type="number"
                           defaultValue={mat.unitRate}
                           onBlur={(e) => handleUpdateMaterialRate(mat.id, e.target.value)}
-                          className="w-16 rounded border border-slate-200 px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
+                          className="w-16 rounded border border-hairline px-1 py-0.5 text-right text-xs focus:border-primary focus:outline-none"
                         />
                       </td>
                     )}
                     {!hiddenColumnIds.includes('cost') && (
-                      <td className="py-2 px-4 text-right font-bold text-slate-800">
+                      <td className="py-2 px-4 text-right font-semibold text-ink">
                         {formatRupees(mat.planned * mat.unitRate)}
                       </td>
                     )}
@@ -873,7 +873,7 @@ export default function ProjectPlanning({ project, setProject }) {
                       <td className="py-2 px-4 text-center">
                         <button 
                           onClick={() => handleDeleteMaterial(mat.id)}
-                          className="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50 transition-colors"
+                          className="text-error hover:text-red-700 p-1 rounded hover:bg-canvas-soft transition-colors"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
@@ -883,7 +883,7 @@ export default function ProjectPlanning({ project, setProject }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={visibleColumnsCount} className="py-8 text-center text-slate-400">
+                  <td colSpan={visibleColumnsCount} className="py-8 text-center text-muted-soft">
                     {materials.length > 0 ? "All materials hidden by filter." : "No baseline materials configured yet."}
                   </td>
                 </tr>
@@ -892,12 +892,12 @@ export default function ProjectPlanning({ project, setProject }) {
             {/* Table Summation Footer */}
             {!loading && materials.length > 0 && (
               <tfoot>
-                <tr className="bg-slate-50/50 border-t-2 border-slate-200 font-bold text-slate-800">
+                <tr className="bg-canvas/50 border-t-2 border-hairline font-semibold text-ink">
                   {!hiddenColumnIds.includes('cost') ? (
                     <>
                       <td 
                         colSpan={visibleColumnsCount - (hiddenColumnIds.includes('actions') ? 1 : 2)} 
-                        className="py-3 px-4 text-left font-extrabold text-[10px] uppercase text-slate-400 tracking-wider"
+                        className="py-3 px-4 text-left font-normal text-[10px] uppercase text-muted-soft tracking-wider"
                       >
                         Total Estimated Baseline Cost
                       </td>
@@ -909,7 +909,7 @@ export default function ProjectPlanning({ project, setProject }) {
                   ) : (
                     <td 
                       colSpan={visibleColumnsCount} 
-                      className="py-3 px-4 text-right font-extrabold text-slate-850"
+                      className="py-3 px-4 text-right font-normal text-ink"
                     >
                       Total Estimated Baseline Cost: <span className="font-black text-primary text-sm ml-2">{formatRupees(totalEstimatedCost)}</span>
                     </td>
@@ -923,30 +923,30 @@ export default function ProjectPlanning({ project, setProject }) {
 
       {/* Add Material Modal */}
       {showAddMaterial && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown">
-            <h3 className="text-sm font-bold text-slate-800">Add Planned Material</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-sm rounded-lg border border-hairline-soft bg-surface-card p-6">
+            <h3 className="text-sm font-semibold text-ink">Add Planned Material</h3>
             
             <form onSubmit={handleAddMaterial} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Material Name</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Material Name</label>
                 <input 
                   type="text" 
                   required
                   value={newMat.name}
                   onChange={e => setNewMat({...newMat, name: e.target.value})}
                   placeholder="e.g. Cement (53 Grade)"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div className={phases.length > 0 ? "block" : "grid grid-cols-2 gap-3.5"}>
                 <div className={phases.length > 0 ? "mb-3.5" : ""}>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Unit</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Unit</label>
                   <select
                     value={newMat.unit}
                     onChange={e => setNewMat({...newMat, unit: e.target.value})}
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   >
                     <option>Bags</option>
                     <option>Tons</option>
@@ -962,25 +962,25 @@ export default function ProjectPlanning({ project, setProject }) {
                 </div>
                 {phases.length === 0 && (
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-700 mb-1">Planned Qty</label>
+                    <label className="block text-[10px] font-semibold text-ink mb-1">Planned Qty</label>
                     <input 
                       type="number" 
                       required
                       value={newMat.planned}
                       onChange={e => setNewMat({...newMat, planned: e.target.value})}
                       placeholder="e.g. 1000"
-                      className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                      className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                     />
                   </div>
                 )}
               </div>
 
               {phases.length > 0 && (
-                <div className="border border-slate-100 rounded-lg p-3 bg-slate-50/50 space-y-2 max-h-36 overflow-y-auto">
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase">Phase Breakdown Qty</span>
+                <div className="border border-hairline-soft rounded-lg p-3 bg-canvas/50 space-y-2 max-h-36 overflow-y-auto">
+                  <span className="block text-[10px] font-bold text-muted uppercase">Phase Breakdown Qty</span>
                   {phases.map((phase) => (
                     <div key={phase.id} className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-slate-600 truncate max-w-[160px] font-medium">{phase.name}</span>
+                      <span className="text-xs text-body truncate max-w-[160px] font-medium">{phase.name}</span>
                       <input 
                         type="number"
                         placeholder="Qty"
@@ -989,7 +989,7 @@ export default function ProjectPlanning({ project, setProject }) {
                           ...newMatPhases,
                           [phase.id]: e.target.value
                         })}
-                        className="w-24 rounded border border-slate-200 px-2 py-1 text-xs text-right focus:border-primary focus:outline-none bg-white font-medium"
+                        className="w-24 rounded border border-hairline px-2 py-1 text-xs text-right focus:border-primary focus:outline-none bg-surface-card font-medium"
                       />
                     </div>
                   ))}
@@ -997,14 +997,14 @@ export default function ProjectPlanning({ project, setProject }) {
               )}
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Estimated Unit Rate (₹)</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Estimated Unit Rate (₹)</label>
                 <input 
                   type="number" 
                   required
                   value={newMat.unitRate}
                   onChange={e => setNewMat({...newMat, unitRate: e.target.value})}
                   placeholder="e.g. 450"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 />
               </div>
 
@@ -1015,13 +1015,13 @@ export default function ProjectPlanning({ project, setProject }) {
                     setShowAddMaterial(false);
                     setNewMatPhases({});
                   }}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
                 >
                   Add Baseline
                 </button>
@@ -1033,66 +1033,66 @@ export default function ProjectPlanning({ project, setProject }) {
 
       {/* Add Phase Modal */}
       {showAddPhase && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown">
-            <h3 className="text-sm font-bold text-slate-800">Add Project Phase</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-sm rounded-lg border border-hairline-soft bg-surface-card p-6">
+            <h3 className="text-sm font-semibold text-ink">Add Project Phase</h3>
             
             <form onSubmit={handleAddPhase} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Phase Name</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Phase Name</label>
                 <input 
                   type="text" 
                   required
                   value={newPhase.name}
                   onChange={e => setNewPhase({...newPhase, name: e.target.value})}
                   placeholder="e.g. Foundation & Columns"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Target Area</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Target Area</label>
                 <input 
                   type="text" 
                   required
                   value={newPhase.targetArea}
                   onChange={e => setNewPhase({...newPhase, targetArea: e.target.value})}
                   placeholder="e.g. 20,000 SFT"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Duration</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Duration</label>
                   <input 
                     type="text" 
                     required
                     value={newPhase.duration}
                     onChange={e => setNewPhase({...newPhase, duration: e.target.value})}
                     placeholder="e.g. 01 May - 30 Jun"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Budget (₹)</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Budget (₹)</label>
                   <input 
                     type="number" 
                     required
                     value={newPhase.budget}
                     onChange={e => setNewPhase({...newPhase, budget: e.target.value})}
                     placeholder="e.g. 12000000"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Status</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Status</label>
                 <select
                   value={newPhase.status}
                   onChange={e => setNewPhase({...newPhase, status: e.target.value})}
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 >
                   <option>Active</option>
                   <option>Upcoming</option>
@@ -1104,13 +1104,13 @@ export default function ProjectPlanning({ project, setProject }) {
                 <button 
                   type="button"
                   onClick={() => setShowAddPhase(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
                 >
                   Add Phase
                 </button>
@@ -1122,66 +1122,66 @@ export default function ProjectPlanning({ project, setProject }) {
 
       {/* Edit Phase Modal */}
       {showEditPhase && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-6 shadow-dropdown">
-            <h3 className="text-sm font-bold text-slate-800">Edit Project Phase</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
+          <div className="w-full max-w-sm rounded-lg border border-hairline-soft bg-surface-card p-6">
+            <h3 className="text-sm font-semibold text-ink">Edit Project Phase</h3>
             
             <form onSubmit={handleEditPhase} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Phase Name</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Phase Name</label>
                 <input 
                   type="text" 
                   required
                   value={editPhaseData.name}
                   onChange={e => setEditPhaseData({...editPhaseData, name: e.target.value})}
                   placeholder="e.g. Foundation & Columns"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Target Area</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Target Area</label>
                 <input 
                   type="text" 
                   required
                   value={editPhaseData.targetArea}
                   onChange={e => setEditPhaseData({...editPhaseData, targetArea: e.target.value})}
                   placeholder="e.g. 20,000 SFT"
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Duration</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Duration</label>
                   <input 
                     type="text" 
                     required
                     value={editPhaseData.duration}
                     onChange={e => setEditPhaseData({...editPhaseData, duration: e.target.value})}
                     placeholder="e.g. 01 May - 30 Jun"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink placeholder:text-muted-soft focus:border-primary focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-700 mb-1">Budget (₹)</label>
+                  <label className="block text-[10px] font-semibold text-ink mb-1">Budget (₹)</label>
                   <input 
                     type="number" 
                     required
                     value={editPhaseData.budget}
                     onChange={e => setEditPhaseData({...editPhaseData, budget: e.target.value})}
                     placeholder="e.g. 12000000"
-                    className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                    className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-700 mb-1">Status</label>
+                <label className="block text-[10px] font-semibold text-ink mb-1">Status</label>
                 <select
                   value={editPhaseData.status}
                   onChange={e => setEditPhaseData({...editPhaseData, status: e.target.value})}
-                  className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-xs text-slate-800 focus:border-primary focus:outline-none"
+                  className="w-full rounded-lg border border-hairline px-3 py-1.5 text-xs text-ink focus:border-primary focus:outline-none"
                 >
                   <option>Active</option>
                   <option>Upcoming</option>
@@ -1193,13 +1193,13 @@ export default function ProjectPlanning({ project, setProject }) {
                 <button 
                   type="button"
                   onClick={() => setShowEditPhase(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-4 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="rounded-lg border border-hairline bg-surface-card px-4 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-hover shadow-premium transition-colors"
+                  className="rounded-lg bg-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
                 >
                   Save Changes
                 </button>
