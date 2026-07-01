@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Router, Routes, Route, Navigate, useNavigate, useParams, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useParams, useLocation, BrowserRouter } from 'react-router-dom';
+import PageMeta from './components/PageMeta';
+import { getMetaForPath } from './config/siteMeta';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Layout from './components/Layout';
@@ -18,6 +20,18 @@ import TeamRoles from './pages/TeamRoles';
 import Settings from './pages/Settings';
 import AdminConsole from './pages/AdminConsole';
 import { api } from './services/api';
+
+const AdminRoute = ({ children }) => {
+  const token = sessionStorage.getItem('buildtrack_token');
+  const user = api.getCurrentUser();
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  if (!['Platform Owner', 'Super Admin', 'Manager'].includes(user?.role)) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
 
 // Route guards
 const ProtectedRoute = ({ children }) => {
@@ -137,9 +151,17 @@ function WorkspaceWrapper() {
   );
 }
 
+function AppMeta() {
+  const { pathname } = useLocation();
+  const meta = getMetaForPath(pathname);
+  if (!meta || pathname.startsWith('/project/')) return null;
+  return <PageMeta {...meta} />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <AppMeta />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route 
@@ -153,9 +175,9 @@ export default function App() {
         <Route 
           path="/admin" 
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <AdminConsole />
-            </ProtectedRoute>
+            </AdminRoute>
           } 
         />
         <Route 

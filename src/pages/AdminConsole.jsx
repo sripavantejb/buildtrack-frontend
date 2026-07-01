@@ -19,9 +19,14 @@ import {
   Building2, 
   Briefcase, 
   UserCheck,
-  LogOut
+  LogOut,
+  ClipboardList,
+  Inbox,
+  Search,
+  Clock,
+  UserCog
 } from 'lucide-react';
-import { api, BASE_URL } from '../services/api';
+import { api } from '../services/api';
 
 export default function AdminConsole() {
   const navigate = useNavigate();
@@ -32,6 +37,10 @@ export default function AdminConsole() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState('tree'); // 'tree' or 'list'
+  const [activeTab, setActiveTab] = useState('credentials'); // credentials | requests | organization
+  const [credentials, setCredentials] = useState([]);
+  const [credentialRequests, setCredentialRequests] = useState([]);
+  const [credentialSearch, setCredentialSearch] = useState('');
   const [expandedNodes, setExpandedNodes] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -62,24 +71,16 @@ export default function AdminConsole() {
   const fetchUsersAndProjects = async () => {
     try {
       setLoading(true);
-      
-      // Fetch users
-      const token = sessionStorage.getItem('buildtrack_token');
-      const usersRes = await fetch(`${BASE_URL}/admin/users`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!usersRes.ok) throw new Error("Failed to load users");
-      const usersData = await usersRes.json();
+      const [usersData, projectsData, credentialsData, requestsData] = await Promise.all([
+        api.getAdminUsers(),
+        api.getProjects(),
+        api.getCredentialsRegistry(),
+        api.getCredentialRequests(),
+      ]);
       setUsers(usersData);
-
-      // Fetch projects
-      const projectsRes = await fetch(`${BASE_URL}/projects`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!projectsRes.ok) throw new Error("Failed to load projects");
-      const projectsData = await projectsRes.json();
       setProjects(projectsData);
-      
+      setCredentials(credentialsData);
+      setCredentialRequests(requestsData);
       setError('');
     } catch (err) {
       console.error(err);
@@ -96,28 +97,24 @@ export default function AdminConsole() {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     setError('');
-    const token = sessionStorage.getItem('buildtrack_token');
 
-    // If Platform Owner is creating a non-Super Admin, companyId is required
     if (currentUser.role === 'Platform Owner' && newUser.role !== 'Super Admin' && !newUser.companyId) {
       setError("Please select a company organization for this user.");
       return;
     }
 
     try {
-      const res = await fetch(`${BASE_URL}/admin/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(newUser)
-      });
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || "Failed to create user");
+      const { fromRequestId, ...userPayload } = newUser;
+      const created = await api.createAdminUser(userPayload);
+
+      if (fromRequestId) {
+        await api.updateCredentialRequest(fromRequestId, {
+          status: 'approved',
+          createdUserId: created.id,
+          adminNotes: 'Account created from access request.',
+        });
       }
-      
+
       setShowAddModal(false);
       setNewUser({
         username: '',
@@ -126,7 +123,8 @@ export default function AdminConsole() {
         password: '',
         role: allowedRoles[0] || 'Employee',
         assignedProjects: [],
-        companyId: ''
+        companyId: '',
+        fromRequestId: null,
       });
       fetchUsersAndProjects();
     } catch (err) {
@@ -137,22 +135,9 @@ export default function AdminConsole() {
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     setError('');
-    const token = sessionStorage.getItem('buildtrack_token');
 
     try {
-      const res = await fetch(`${BASE_URL}/admin/users/${editingUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(editingUser)
-      });
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.message || "Failed to update user");
-      }
-
+      await api.updateAdminUser(editingUser.id, editingUser);
       setShowEditModal(false);
       setEditingUser(null);
       fetchUsersAndProjects();
@@ -162,17 +147,8 @@ export default function AdminConsole() {
   };
 
   const handleToggleStatus = async (user) => {
-    const token = sessionStorage.getItem('buildtrack_token');
     try {
-      const res = await fetch(`${BASE_URL}/admin/users/${user.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ isActive: !user.isActive })
-      });
-      if (!res.ok) throw new Error("Failed to toggle status");
+      await api.updateAdminUser(user.id, { isActive: !user.isActive });
       fetchUsersAndProjects();
     } catch (err) {
       setError(err.message);
@@ -181,17 +157,63 @@ export default function AdminConsole() {
 
   const handleDeleteUser = async (user) => {
     if (!confirm(`Are you sure you want to delete user ${user.name}?`)) return;
-    const token = sessionStorage.getItem('buildtrack_token');
     try {
-      const res = await fetch(`${BASE_URL}/admin/users/${user.id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!res.ok) throw new Error("Failed to delete user");
+      await api.deleteAdminUser(user.id);
       fetchUsersAndProjects();
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const handleRejectRequest = async (request) => {
+    try {
+      await api.updateCredentialRequest(request.id, {
+        status: 'rejected',
+        adminNotes: 'Request declined by administrator.',
+      });
+      fetchUsersAndProjects();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const openCreateFromRequest = (request) => {
+    const username = request.email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase() || `user${Date.now()}`;
+    setNewUser({
+      username,
+      name: request.name,
+      email: request.email,
+      password: '',
+      role: currentUser.role === 'Platform Owner' ? 'Super Admin' : allowedRoles[0] || 'Employee',
+      assignedProjects: [],
+      companyId: '',
+      fromRequestId: request.id,
+    });
+    setShowAddModal(true);
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '—';
+    return new Intl.DateTimeFormat('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(new Date(dateStr));
+  };
+
+  const pendingRequests = credentialRequests.filter((r) => r.status === 'pending');
+  const filteredCredentials = credentials.filter((c) => {
+    const q = credentialSearch.toLowerCase();
+    return !q || [c.name, c.email, c.username, c.role, c.createdBy].some((v) => v?.toLowerCase().includes(q));
+  });
+
+  const credentialStats = {
+    total: credentials.length,
+    active: credentials.filter((c) => c.isActive).length,
+    pending: pendingRequests.length,
+    superAdmins: credentials.filter((c) => c.role === 'Super Admin').length,
   };
 
   const handleProjectCheckboxChange = (projectId, isChecked, isEdit = false) => {
@@ -459,9 +481,9 @@ export default function AdminConsole() {
               </svg>
             </button>
             <div>
-              <h2 className="text-base font-normal text-ink tracking-tight">Admin Console</h2>
+              <h2 className="text-base font-normal text-ink tracking-tight">Super Admin Panel</h2>
               <p className="text-[10px] text-muted-soft font-medium mt-0.5">
-                Manage credentials, team roles, and project mapping.
+                Create credentials, track real estate users, and review access requests.
               </p>
             </div>
           </div>
@@ -537,7 +559,236 @@ export default function AdminConsole() {
                 </div>
               )}
 
-              {/* Main Hierarchy UI */}
+              {/* Stats */}
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="premium-card p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-soft">Total Credentials</p>
+                  <p className="mt-1 text-2xl font-semibold text-ink tabular-nums">{credentialStats.total}</p>
+                </div>
+                <div className="premium-card p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-soft">Active Accounts</p>
+                  <p className="mt-1 text-2xl font-semibold text-success tabular-nums">{credentialStats.active}</p>
+                </div>
+                <div className="premium-card p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-soft">Pending Requests</p>
+                  <p className="mt-1 text-2xl font-semibold text-primary tabular-nums">{credentialStats.pending}</p>
+                </div>
+                <div className="premium-card p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-muted-soft">Real Estate Tenants</p>
+                  <p className="mt-1 text-2xl font-semibold text-ink tabular-nums">{credentialStats.superAdmins}</p>
+                </div>
+              </div>
+
+              {/* Section tabs */}
+              <div className="flex overflow-x-auto border-b border-hairline gap-4 sm:gap-6">
+                {[
+                  { id: 'credentials', label: 'Credential Registry', icon: ClipboardList },
+                  { id: 'requests', label: `Access Requests${pendingRequests.length ? ` (${pendingRequests.length})` : ''}`, icon: Inbox },
+                  { id: 'organization', label: 'Organization', icon: Users },
+                ].map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setActiveTab(id)}
+                    className={`flex shrink-0 items-center gap-1.5 pb-3 border-b-2 text-xs font-semibold transition-colors ${
+                      activeTab === id ? 'border-primary text-primary' : 'border-transparent text-muted-soft hover:text-body'
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Credential Registry */}
+              {activeTab === 'credentials' && (
+                <div className="rounded-lg border border-hairline bg-surface-card p-5">
+                  <div className="page-header mb-4">
+                    <div>
+                      <h4 className="text-xs font-semibold text-ink flex items-center gap-2">
+                        <Key className="h-4 w-4 text-primary" />
+                        All Created Credentials
+                      </h4>
+                      <p className="text-[9px] text-muted-soft font-medium mt-0.5">
+                        Track every real estate user account created on BuildTrack
+                      </p>
+                    </div>
+                    <div className="relative w-full sm:max-w-xs">
+                      <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-muted-soft" />
+                      <input
+                        type="text"
+                        value={credentialSearch}
+                        onChange={(e) => setCredentialSearch(e.target.value)}
+                        placeholder="Search by name, email, role..."
+                        className="w-full rounded-lg border border-hairline pl-9 pr-3 py-1.5 text-xs focus:border-primary focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="table-scroll overflow-x-auto border border-hairline-soft rounded-lg">
+                    <table className="w-full min-w-[720px] text-left text-xs">
+                      <thead>
+                        <tr className="border-b border-hairline bg-canvas-soft text-[10px] font-bold uppercase tracking-wider text-muted-soft">
+                          <th className="px-4 py-2.5">User</th>
+                          <th className="px-3 py-2.5">Role</th>
+                          <th className="px-3 py-2.5">Created By</th>
+                          <th className="px-3 py-2.5">Created On</th>
+                          <th className="px-3 py-2.5 text-center">Status</th>
+                          <th className="px-4 py-2.5 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-hairline-soft">
+                        {filteredCredentials.length === 0 ? (
+                          <tr>
+                            <td colSpan={6} className="px-4 py-10 text-center text-muted-soft">
+                              No credentials found.
+                            </td>
+                          </tr>
+                        ) : (
+                          filteredCredentials.map((cred) => (
+                            <tr key={cred.id} className="hover:bg-canvas/50">
+                              <td className="px-4 py-3">
+                                <p className="font-semibold text-ink">{cred.name}</p>
+                                <p className="text-[10px] text-muted-soft">@{cred.username} · {cred.email}</p>
+                              </td>
+                              <td className="px-3 py-3">
+                                <span className="rounded bg-canvas-soft px-2 py-0.5 text-[10px] font-bold text-body">
+                                  {cred.role}
+                                </span>
+                              </td>
+                              <td className="px-3 py-3 text-[10px] text-muted">
+                                <p className="font-medium text-body">{cred.createdBy}</p>
+                                {cred.createdByEmail && <p className="text-muted-soft">{cred.createdByEmail}</p>}
+                              </td>
+                              <td className="px-3 py-3 text-[10px] text-muted whitespace-nowrap">
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-3 w-3 text-muted-soft" />
+                                  {formatDate(cred.createdAt)}
+                                </div>
+                              </td>
+                              <td className="px-3 py-3 text-center">
+                                <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase ${
+                                  cred.isActive ? 'bg-timeline-grep/20 text-success' : 'bg-canvas-soft text-muted'
+                                }`}>
+                                  {cred.isActive ? 'Active' : 'Inactive'}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                {cred.id !== currentUser?.id && cred.role !== 'Platform Owner' && (
+                                  <div className="flex items-center justify-end gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setEditingUser({ ...cred, assignedProjects: cred.assignedProjects || [] });
+                                        setShowEditModal(true);
+                                      }}
+                                      className="rounded p-1 text-primary hover:bg-primary/5"
+                                      title="Edit"
+                                    >
+                                      <Edit2 className="h-3.5 w-3.5" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleToggleStatus(cred)}
+                                      className="rounded p-1 text-muted hover:bg-canvas"
+                                      title={cred.isActive ? 'Deactivate' : 'Activate'}
+                                    >
+                                      {cred.isActive ? <ToggleRight className="h-4 w-4 text-success" /> : <ToggleLeft className="h-4 w-4" />}
+                                    </button>
+                                  </div>
+                                )}
+                              </td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Access Requests */}
+              {activeTab === 'requests' && (
+                <div className="rounded-lg border border-hairline bg-surface-card p-5">
+                  <div className="mb-4">
+                    <h4 className="text-xs font-semibold text-ink flex items-center gap-2">
+                      <Inbox className="h-4 w-4 text-primary" />
+                      Credential Access Requests
+                    </h4>
+                    <p className="text-[9px] text-muted-soft font-medium mt-0.5">
+                      Users who contacted admin from the login page to request BuildTrack access
+                    </p>
+                  </div>
+
+                  {credentialRequests.length === 0 ? (
+                    <div className="py-12 text-center text-xs text-muted-soft">
+                      No access requests yet.
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {credentialRequests.map((request) => (
+                        <div
+                          key={request.id}
+                          className={`rounded-lg border p-4 ${
+                            request.status === 'pending'
+                              ? 'border-primary/30 bg-primary/5'
+                              : request.status === 'approved'
+                                ? 'border-hairline bg-timeline-grep/10'
+                                : 'border-hairline bg-canvas-soft/50 opacity-80'
+                          }`}
+                        >
+                          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <h5 className="text-sm font-semibold text-ink">{request.name}</h5>
+                                <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase ${
+                                  request.status === 'pending' ? 'bg-primary/10 text-primary' :
+                                  request.status === 'approved' ? 'bg-timeline-grep/20 text-success' :
+                                  'bg-canvas-soft text-muted'
+                                }`}>
+                                  {request.status}
+                                </span>
+                              </div>
+                              <div className="mt-2 space-y-1 text-[10px] text-muted">
+                                <p className="flex items-center gap-1.5"><Mail className="h-3 w-3" /> {request.email}</p>
+                                {request.company && <p className="flex items-center gap-1.5"><Building2 className="h-3 w-3" /> {request.company}</p>}
+                                {request.phone && <p>{request.phone}</p>}
+                                {request.message && <p className="mt-2 rounded bg-surface-card border border-hairline-soft p-2 text-body leading-relaxed">{request.message}</p>}
+                              </div>
+                              <p className="mt-2 text-[9px] text-muted-soft">Submitted {formatDate(request.createdAt)}</p>
+                            </div>
+
+                            {request.status === 'pending' && (
+                              <div className="flex shrink-0 flex-wrap gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => openCreateFromRequest(request)}
+                                  className="flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-bold text-white hover:bg-primary-active"
+                                >
+                                  <UserCog className="h-3.5 w-3.5" />
+                                  Create Credentials
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleRejectRequest(request)}
+                                  className="flex items-center gap-1 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-error hover:bg-canvas"
+                                >
+                                  <X className="h-3.5 w-3.5" />
+                                  Reject
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Organization (existing tree/list) */}
+              {activeTab === 'organization' && (
+              <>
               {viewMode === 'tree' ? (
                 <div className="rounded-lg border border-hairline bg-surface-card p-6">
                   <h4 className="text-xs font-semibold text-ink mb-6 flex items-center gap-2">
@@ -675,6 +926,8 @@ export default function AdminConsole() {
                   </div>
                 </div>
               )}
+              </>
+              )}
             </div>
           )}
         </main>
@@ -685,7 +938,9 @@ export default function AdminConsole() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4">
           <div className="w-full max-w-md rounded-lg border border-hairline bg-surface-card p-6 max-h-[90vh] flex flex-col">
             <div className="flex items-center justify-between pb-3 border-b border-hairline-soft">
-              <h3 className="text-sm font-semibold text-ink">Create Team/Company Account</h3>
+              <h3 className="text-sm font-semibold text-ink">
+                {newUser.fromRequestId ? 'Create Credentials from Request' : 'Create Team/Company Account'}
+              </h3>
               <button onClick={() => setShowAddModal(false)} className="text-muted-soft hover:text-body font-bold text-sm">✕</button>
             </div>
             

@@ -40,6 +40,67 @@ export const api = {
     return user ? JSON.parse(user) : null;
   },
 
+  // Credential requests (public)
+  submitCredentialRequest: async ({ name, email, company, phone, message }) => {
+    const res = await fetch(`${BASE_URL}/credential-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, company, phone, message }),
+    });
+    return handleResponse(res);
+  },
+
+  // Admin — users & credentials
+  getAdminUsers: async () => {
+    const res = await fetch(`${BASE_URL}/admin/users`, { headers: getHeaders() });
+    return handleResponse(res);
+  },
+
+  createAdminUser: async (userData) => {
+    const res = await fetch(`${BASE_URL}/admin/users`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(userData),
+    });
+    return handleResponse(res);
+  },
+
+  updateAdminUser: async (userId, updates) => {
+    const res = await fetch(`${BASE_URL}/admin/users/${userId}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(updates),
+    });
+    return handleResponse(res);
+  },
+
+  deleteAdminUser: async (userId) => {
+    const res = await fetch(`${BASE_URL}/admin/users/${userId}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    return handleResponse(res);
+  },
+
+  getCredentialsRegistry: async () => {
+    const res = await fetch(`${BASE_URL}/admin/credentials`, { headers: getHeaders() });
+    return handleResponse(res);
+  },
+
+  getCredentialRequests: async () => {
+    const res = await fetch(`${BASE_URL}/admin/credential-requests`, { headers: getHeaders() });
+    return handleResponse(res);
+  },
+
+  updateCredentialRequest: async (requestId, updates) => {
+    const res = await fetch(`${BASE_URL}/admin/credential-requests/${requestId}`, {
+      method: 'PATCH',
+      headers: getHeaders(),
+      body: JSON.stringify(updates),
+    });
+    return handleResponse(res);
+  },
+
   // Projects
   getProjects: async () => {
     const res = await fetch(`${BASE_URL}/projects`, { headers: getHeaders() });

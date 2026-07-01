@@ -20,6 +20,8 @@ import {
   Bell
 } from 'lucide-react';
 import { api } from '../services/api';
+import PageMeta from './PageMeta';
+import { getProjectPageMeta } from '../config/siteMeta';
 
 export default function Layout({ children, project, setProject }) {
   const location = useLocation();
@@ -72,6 +74,10 @@ export default function Layout({ children, project, setProject }) {
     navigate('/login');
   };
 
+  const sectionMatch = location.pathname.match(/\/project\/[^/]+\/([^/?]+)/);
+  const sectionKey = sectionMatch?.[1] || 'overview';
+  const pageMeta = project ? getProjectPageMeta(project.name, sectionKey, location.pathname) : null;
+
   const navItems = [
     { name: 'Overview', path: 'overview', icon: Home },
     { name: 'Project Planning', path: 'planning', icon: Calendar },
@@ -88,6 +94,8 @@ export default function Layout({ children, project, setProject }) {
   ];
 
   return (
+    <>
+      {pageMeta && <PageMeta {...pageMeta} path={location.pathname} />}
     <div className="flex h-screen overflow-hidden bg-canvas">
       {/* Left Sidebar (Desktop) */}
       <aside className="hidden lg:flex w-64 flex-col border-r border-hairline bg-canvas flex-shrink-0">
