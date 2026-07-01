@@ -676,26 +676,30 @@ export default function ProjectPlanning({ project, setProject }) {
       </div>
 
       {/* Planned Materials Baseline Matrix */}
-      <div className="rounded-lg border border-hairline bg-surface-card p-5 overflow-hidden">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
-          <div>
+      <div className="rounded-lg border border-hairline bg-surface-card p-4 sm:p-5 overflow-hidden">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
+          <div className="min-w-0">
             <h4 className="text-xs font-semibold text-ink">Planned Materials (Baseline)</h4>
             <p className="text-[9px] text-muted-soft font-semibold mt-0.5">Baseline estimation quantity and costing for materials</p>
           </div>
-          <div className="flex items-center gap-2 relative">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Filter Dropdown */}
             <div className="relative">
               <button
                 id="filter-materials-btn"
                 onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-2.5 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors sm:px-3"
               >
-                <Filter className="h-3.5 w-3.5 text-muted-soft" />
-                <span>Filter Rows ({materials.length - hiddenMaterialIds.length}/{materials.length})</span>
+                <Filter className="h-3.5 w-3.5 shrink-0 text-muted-soft" />
+                <span className="whitespace-nowrap">
+                  <span className="sm:hidden">Rows </span>
+                  <span className="hidden sm:inline">Filter Rows </span>
+                  ({materials.length - hiddenMaterialIds.length}/{materials.length})
+                </span>
               </button>
 
               {showFilterDropdown && (
-                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
+                <div className="absolute left-0 sm:left-auto sm:right-0 mt-1.5 z-40 w-[min(calc(100vw-2rem),14rem)] rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
                   <div className="flex items-center justify-between pb-1.5 border-b border-hairline-soft text-[10px] font-bold text-muted-soft uppercase tracking-wider">
                     <span>Show/Hide Rows</span>
                     <div className="flex gap-2 text-primary lowercase font-semibold">
@@ -733,14 +737,18 @@ export default function ProjectPlanning({ project, setProject }) {
               <button
                 id="filter-columns-btn"
                 onClick={() => setShowColFilterDropdown(!showColFilterDropdown)}
-                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-2.5 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors sm:px-3"
               >
-                <Filter className="h-3.5 w-3.5 text-muted-soft" />
-                <span>Filter Columns ({allColumns.length - hiddenColumnIds.length}/{allColumns.length})</span>
+                <Filter className="h-3.5 w-3.5 shrink-0 text-muted-soft" />
+                <span className="whitespace-nowrap">
+                  <span className="sm:hidden">Cols </span>
+                  <span className="hidden sm:inline">Filter Columns </span>
+                  ({allColumns.length - hiddenColumnIds.length}/{allColumns.length})
+                </span>
               </button>
 
               {showColFilterDropdown && (
-                <div className="absolute right-0 mt-1.5 z-40 w-56 rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
+                <div className="absolute left-0 sm:left-auto sm:right-0 mt-1.5 z-40 w-[min(calc(100vw-2rem),14rem)] rounded-lg border border-hairline bg-surface-card p-3 flex flex-col gap-2 max-h-80 overflow-y-auto animate-fade-in">
                   <div className="flex items-center justify-between pb-1.5 border-b border-hairline-soft text-[10px] font-bold text-muted-soft uppercase tracking-wider">
                     <span>Show/Hide Columns</span>
                     <div className="flex gap-2 text-primary lowercase font-semibold">
@@ -773,9 +781,12 @@ export default function ProjectPlanning({ project, setProject }) {
               )}
             </div>
 
-            <label className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors cursor-pointer">
-              <Download className="h-3.5 w-3.5 text-muted-soft" />
-              <span>Import Excel/CSV</span>
+            <label className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-2.5 py-1.5 text-[10px] font-bold text-body hover:bg-canvas transition-colors cursor-pointer sm:px-3">
+              <Download className="h-3.5 w-3.5 shrink-0 text-muted-soft" />
+              <span className="whitespace-nowrap">
+                <span className="sm:hidden">Import</span>
+                <span className="hidden sm:inline">Import Excel/CSV</span>
+              </span>
               <input 
                 type="file" 
                 accept=".csv, .xlsx, .xls" 
@@ -785,16 +796,16 @@ export default function ProjectPlanning({ project, setProject }) {
             </label>
             <button 
               onClick={() => setShowAddMaterial(true)}
-              className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-bold text-white hover:bg-primary-active transition-colors"
+              className="flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-[10px] font-bold text-white hover:bg-primary-active transition-colors sm:px-3"
             >
-              <Plus className="h-3.5 w-3.5" />
-              <span>Add Material</span>
+              <Plus className="h-3.5 w-3.5 shrink-0" />
+              <span className="whitespace-nowrap">Add Material</span>
             </button>
           </div>
         </div>
 
         {/* Spreadsheet Matrix Table */}
-        <div className="overflow-x-auto border border-hairline-soft rounded-lg">
+        <div className="table-scroll -mx-1 overflow-x-auto border border-hairline-soft rounded-lg px-1">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-canvas border-b border-hairline text-muted font-bold">

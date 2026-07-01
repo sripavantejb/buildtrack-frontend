@@ -149,17 +149,17 @@ export default function Inventory({ project }) {
       {/* Main Grid: Warehouse balances + Stock Logs */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Warehouse Balances */}
-        <div className="rounded-lg border border-hairline bg-surface-card p-5 flex flex-col justify-between">
+        <div className="rounded-lg border border-hairline bg-surface-card p-4 sm:p-5 flex flex-col justify-between min-w-0 overflow-hidden">
           <h4 className="text-xs font-semibold text-ink mb-4">Warehouse Status</h4>
           
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-4 min-w-0">
             {materials.map((mat) => {
               const capUsed = mat.purchased > 0 ? (mat.remaining / mat.purchased) * 100 : 0;
               return (
-                <div key={mat.id} className="space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-bold">
-                    <span className="text-ink">{mat.name}</span>
-                    <span className={`font-black ${mat.remaining < 200 && mat.remaining > 0 ? 'text-timeline-done' : 'text-muted'}`}>
+                <div key={mat.id} className="space-y-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 text-[10px] font-bold min-w-0">
+                    <span className="text-ink truncate min-w-0 flex-1">{mat.name}</span>
+                    <span className={`shrink-0 tabular-nums text-right whitespace-nowrap ${mat.remaining < 200 && mat.remaining > 0 ? 'text-timeline-done' : 'text-muted'}`}>
                       {mat.remaining.toLocaleString()} {mat.unit}
                     </span>
                   </div>
