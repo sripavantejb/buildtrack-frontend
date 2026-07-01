@@ -415,5 +415,6 @@ export default function Layout({ children, project, setProject }) {
         </div>
       </aside>
     </div>
+    </>
   );
 }

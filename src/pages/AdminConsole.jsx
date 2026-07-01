@@ -298,25 +298,24 @@ export default function AdminConsole() {
 
   const renderTreeNodes = (nodes, level = 0) => {
     return (
-      <div className={`space-y-4 ${level > 0 ? 'pl-6 border-l border-dashed border-hairline mt-2 ml-4' : ''}`}>
+      <div className={`space-y-3 sm:space-y-4 ${level > 0 ? 'mt-2 border-l border-dashed border-hairline pl-2 sm:pl-4 ml-1 sm:ml-3' : ''}`}>
         {nodes.map(node => {
           const hasChildren = node.children && node.children.length > 0;
-          const isExpanded = expandedNodes[node.id] !== false; // default expanded
+          const isExpanded = expandedNodes[node.id] !== false;
 
           return (
-            <div key={node.id} className="relative">
-              {/* Connector horizontal line */}
+            <div key={node.id} className="relative min-w-0">
               {level > 0 && (
-                <div className="absolute -left-6 top-5 w-6 border-t border-dashed border-hairline"></div>
+                <div className="absolute -left-2 sm:-left-4 top-5 w-2 sm:w-4 border-t border-dashed border-hairline" />
               )}
               
               <div 
-                className={`flex items-start gap-3.5 bg-surface-card p-4 rounded-lg border max-w-2xl transition-all duration-200 ${
+                className={`flex items-start gap-2.5 sm:gap-3.5 w-full min-w-0 rounded-lg border bg-surface-card p-3 sm:p-4 transition-all duration-200 ${
                   !node.isActive 
                     ? 'border-hairline opacity-65 bg-canvas/50' 
                     : node.id === currentUser.id 
                       ? 'border-hairline ring-2 ring-primary/10 bg-canvas-soft/10' 
-                      : 'border-hairline/90 hover:border-hairline-strong hover:shadow-dropdown'
+                      : 'border-hairline/90 hover:border-hairline-strong'
                 }`}
               >
                 {/* Avatar */}
@@ -333,15 +332,15 @@ export default function AdminConsole() {
 
                 {/* Details */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <h5 className="text-xs font-semibold text-ink truncate leading-snug">{node.name}</h5>
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <h5 className="truncate text-xs font-semibold text-ink leading-snug">{node.name}</h5>
                       {node.id === currentUser.id && (
-                        <span className="rounded bg-canvas-soft text-primary px-1 py-0.2 text-[8px] font-normal tracking-wide uppercase">You</span>
+                        <span className="shrink-0 rounded bg-canvas-soft px-1 py-0.5 text-[8px] font-normal uppercase tracking-wide text-primary">You</span>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-1.5 ml-2 flex-shrink-0">
+                    <div className="flex shrink-0 items-center gap-1.5">
                       <span className={`rounded px-1.5 py-0.5 text-[8px] font-normal uppercase tracking-wide ${
                         node.role === 'Platform Owner' ? 'bg-purple-50 text-purple-600 border border-purple-100' :
                         node.role === 'Super Admin' ? 'bg-canvas-soft text-primary border border-hairline' :
@@ -353,7 +352,7 @@ export default function AdminConsole() {
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-muted-soft font-semibold mt-0.5">@{node.username} • {node.email}</p>
+                  <p className="mt-0.5 truncate text-[10px] font-semibold text-muted-soft">@{node.username} · {node.email}</p>
                   
                   {node.assignedProjects && node.assignedProjects.length > 0 && (
                     <div className="mt-2.5 flex flex-wrap gap-1">
@@ -370,7 +369,7 @@ export default function AdminConsole() {
 
                   {/* Node Actions */}
                   {node.id !== currentUser.id && node.role !== 'Platform Owner' && (
-                    <div className="mt-3 pt-2.5 border-t border-hairline-soft flex items-center justify-end gap-3.5">
+                    <div className="mt-3 flex flex-wrap items-center justify-end gap-2 border-t border-hairline-soft pt-2.5 sm:gap-3.5">
                       <button 
                         onClick={() => handleToggleStatus(node)}
                         className={`text-[9px] font-normal transition-colors ${
@@ -501,7 +500,7 @@ export default function AdminConsole() {
                       : 'text-muted hover:text-ink'
                   }`}
                 >
-                  Tree Hierarchy
+                  Tree<span className="hidden sm:inline"> Hierarchy</span>
                 </button>
                 <button 
                   type="button"
@@ -512,7 +511,7 @@ export default function AdminConsole() {
                       : 'text-muted hover:text-ink'
                   }`}
                 >
-                  Grid List
+                  Grid<span className="hidden sm:inline"> List</span>
                 </button>
               </div>
 
@@ -790,14 +789,14 @@ export default function AdminConsole() {
               {activeTab === 'organization' && (
               <>
               {viewMode === 'tree' ? (
-                <div className="rounded-lg border border-hairline bg-surface-card p-6">
-                  <h4 className="text-xs font-semibold text-ink mb-6 flex items-center gap-2">
+                <div className="rounded-lg border border-hairline bg-surface-card p-4 sm:p-6 overflow-hidden">
+                  <h4 className="text-xs font-semibold text-ink mb-4 sm:mb-6 flex items-center gap-2">
                     <Users className="h-4 w-4 text-primary" />
                     <span>Organization Visual Tree</span>
                   </h4>
                   
                   {hierarchyTree.length > 0 ? (
-                    <div className="overflow-x-auto py-2">
+                    <div className="table-scroll overflow-x-auto py-2 -mx-1 px-1">
                       {renderTreeNodes(hierarchyTree)}
                     </div>
                   ) : (
