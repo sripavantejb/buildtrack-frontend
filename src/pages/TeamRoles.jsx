@@ -194,7 +194,7 @@ export default function TeamRoles({ project }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Team & Roles</h2>
           <p className="text-[10px] text-muted-soft font-medium">Manage project members, access levels, and invite collaborators.</p>
@@ -368,7 +368,7 @@ export default function TeamRoles({ project }) {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3.5">
+                <div className="form-grid-2">
                   <div>
                     <label className="block text-[10px] font-semibold text-ink mb-1">Username</label>
                     <input 

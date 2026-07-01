@@ -98,6 +98,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [coverImage, setCoverImage] = useState('');
   const [coverImageName, setCoverImageName] = useState('');
   const [imageError, setImageError] = useState('');
@@ -244,8 +245,8 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-canvas">
-      {/* Sidebar */}
-      <aside className="flex w-[260px] shrink-0 flex-col border-r border-hairline bg-surface-card">
+      {/* Sidebar — desktop */}
+      <aside className="hidden w-[260px] shrink-0 flex-col border-r border-hairline bg-surface-card lg:flex">
         <div
           className="flex h-[72px] cursor-pointer items-center gap-3 border-b border-hairline-soft px-6"
           onClick={() => navigate('/')}
@@ -310,7 +311,17 @@ export default function Dashboard() {
 
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-        <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-hairline bg-surface-card px-8">
+        <header className="flex h-[72px] shrink-0 items-center justify-between gap-3 border-b border-hairline bg-surface-card px-4 sm:px-6 lg:px-8">
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(true)}
+            className="rounded-lg border border-hairline bg-surface-card p-2 text-muted hover:bg-canvas lg:hidden"
+            aria-label="Open menu"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
           <div className="relative hidden max-w-md flex-1 sm:block">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-soft" />
             <input
@@ -334,12 +345,23 @@ export default function Dashboard() {
         </header>
 
         <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+            {/* Mobile search */}
+            <div className="relative mb-6 sm:hidden">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-soft" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search projects..."
+                className="text-input h-10 pl-10 text-sm"
+              />
+            </div>
             {/* Hero */}
             <div className="mb-8 flex flex-col gap-4 border-b border-hairline-soft pb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="section-label mb-2">{formatToday()}</p>
-                <h2 className="text-display-md font-normal tracking-tight text-ink">
+                <h2 className="text-xl font-normal tracking-tight text-ink sm:text-display-md">
                   {getGreeting()}, {user.name?.split(' ')[0]}
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{subtitle}</p>
@@ -576,7 +598,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="form-grid-2">
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-ink">Total Budget (₹)</label>
                   <input
@@ -600,7 +622,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="form-grid-2">
                 <div>
                   <label className="mb-1.5 block text-sm font-semibold text-ink">Start Date</label>
                   <input
@@ -621,7 +643,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 border-t border-hairline-soft pt-5">
+              <div className="flex flex-col-reverse gap-3 border-t border-hairline-soft pt-5 sm:flex-row sm:justify-end">
                 <button type="button" onClick={closeAddModal} className="btn-secondary">
                   Cancel
                 </button>
@@ -633,6 +655,87 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Mobile sidebar backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-ink/40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Mobile sidebar drawer */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col border-r border-hairline bg-surface-card transition-transform duration-300 lg:hidden ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex h-[72px] items-center justify-between border-b border-hairline-soft px-6">
+          <div className="flex items-center gap-3" onClick={() => { navigate('/'); setSidebarOpen(false); }}>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
+              <Building2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-[15px] font-semibold tracking-tight text-ink">BuildTrack</h1>
+              <p className="text-[11px] font-medium text-muted-soft">Construction Management</p>
+            </div>
+          </div>
+          <button type="button" onClick={() => setSidebarOpen(false)} className="text-muted-soft hover:text-body" aria-label="Close menu">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className="flex-1 space-y-1 overflow-y-auto p-4">
+          <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-muted-soft">Main</p>
+          <Link
+            to="/"
+            onClick={() => setSidebarOpen(false)}
+            className="flex items-center gap-3 rounded-lg border border-hairline bg-canvas-soft px-3 py-2.5 text-sm font-medium text-primary"
+          >
+            <FolderKanban className="h-4 w-4" />
+            Projects
+          </Link>
+          {['Platform Owner', 'Super Admin', 'Manager'].includes(user.role) && (
+            <button
+              type="button"
+              onClick={() => { navigate('/admin'); setSidebarOpen(false); }}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-muted transition-colors hover:bg-canvas hover:text-ink"
+            >
+              <LayoutDashboard className="h-4 w-4 text-muted-soft" />
+              Admin Console
+            </button>
+          )}
+        </nav>
+
+        <div className="border-t border-hairline-soft p-4">
+          <div className="mb-3 flex items-center gap-3 rounded-lg border border-hairline-soft bg-canvas p-3">
+            {user.avatar ? (
+              <img src={user.avatar} alt={user.name} className="h-9 w-9 rounded-full border border-hairline object-cover" />
+            ) : (
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
+                {user.name?.charAt(0) || 'U'}
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-ink">{user.name}</p>
+              <p className="truncate text-xs text-muted-soft">{user.role}</p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              api.logout();
+              navigate('/login');
+            }}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-canvas hover:text-error"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
+      </aside>
     </div>
   );
 }

@@ -33,6 +33,7 @@ export default function AdminConsole() {
   const [error, setError] = useState('');
   const [viewMode, setViewMode] = useState('tree'); // 'tree' or 'list'
   const [expandedNodes, setExpandedNodes] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const currentUser = api.getCurrentUser();
 
@@ -397,7 +398,7 @@ export default function AdminConsole() {
   };  return (
     <div className="flex h-screen overflow-hidden bg-canvas">
       {/* Left Sidebar (Desktop) */}
-      <aside className="flex w-64 flex-col border-r border-hairline bg-surface-card flex-shrink-0">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-hairline bg-surface-card lg:flex">
         {/* Logo Branding */}
         <div className="flex h-16 items-center gap-2 border-b border-hairline-soft px-6 cursor-pointer" onClick={() => navigate('/')}>
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white">
@@ -445,16 +446,28 @@ export default function AdminConsole() {
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-hairline bg-surface-card px-8 flex-shrink-0">
-          <div>
-            <h2 className="text-base font-normal text-ink tracking-tight">Admin Console</h2>
-            <p className="text-[10px] text-muted-soft font-medium mt-0.5">
-              Manage credentials, team roles, and project mapping in a hierarchical view.
-            </p>
+        <header className="flex shrink-0 flex-col gap-3 border-b border-hairline bg-surface-card px-4 py-4 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-lg border border-hairline bg-surface-card p-2 text-muted hover:bg-canvas lg:hidden"
+              aria-label="Open menu"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div>
+              <h2 className="text-base font-normal text-ink tracking-tight">Admin Console</h2>
+              <p className="text-[10px] text-muted-soft font-medium mt-0.5">
+                Manage credentials, team roles, and project mapping.
+              </p>
+            </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {/* Toggle view mode */}
               <div className="flex rounded-lg border border-hairline p-0.5 bg-canvas-soft">
                 <button 
@@ -497,12 +510,13 @@ export default function AdminConsole() {
                 className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
               >
                 <UserPlus className="h-4 w-4" />
-                <span>Create Account</span>
+                <span className="hidden sm:inline">Create Account</span>
+                <span className="sm:hidden">Create</span>
               </button>
             </div>
             
-            <div className="h-8 w-px bg-hairline"></div>
-            <div className="text-right">
+            <div className="hidden h-8 w-px bg-hairline md:block"></div>
+            <div className="hidden text-right md:block">
               <p className="text-xs font-semibold text-ink">{currentUser?.name}</p>
               <p className="text-[10px] text-muted-soft font-medium">{currentUser?.role}</p>
             </div>
@@ -688,7 +702,7 @@ export default function AdminConsole() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Username</label>
                   <input 
@@ -817,7 +831,7 @@ export default function AdminConsole() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-bold text-ink mb-1">Username (Read Only)</label>
                   <input 
@@ -902,6 +916,64 @@ export default function AdminConsole() {
           </div>
         </div>
       )}
+
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-40 bg-ink/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-hairline bg-surface-card transition-transform duration-300 lg:hidden ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-hairline-soft px-6">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => { navigate('/'); setSidebarOpen(false); }}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white">
+              <Building2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-base font-semibold text-ink tracking-tight">BuildTrack</h1>
+              <p className="text-[10px] text-muted-soft font-medium leading-none">Construction Management</p>
+            </div>
+          </div>
+          <button type="button" onClick={() => setSidebarOpen(false)} className="text-muted-soft hover:text-body" aria-label="Close menu">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className="flex-1 space-y-[2px] overflow-y-auto px-3 py-4">
+          <button
+            type="button"
+            onClick={() => { navigate('/'); setSidebarOpen(false); }}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs font-semibold text-muted hover:bg-canvas hover:text-ink transition-colors text-left"
+          >
+            <Building2 className="h-4.5 w-4.5 text-muted-soft" />
+            Projects
+          </button>
+          {['Platform Owner', 'Super Admin', 'Manager'].includes(currentUser?.role) && (
+            <button
+              type="button"
+              className="flex w-full items-center gap-3 rounded-lg bg-primary-light px-3 py-2 text-xs font-semibold text-primary transition-colors text-left"
+            >
+              <Users className="h-4.5 w-4.5 text-primary" />
+              Admin Console
+            </button>
+          )}
+        </nav>
+
+        <div className="border-t border-hairline-soft p-4">
+          <button
+            type="button"
+            onClick={() => { api.logout(); navigate('/login'); }}
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-error hover:bg-canvas-soft transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign Out
+          </button>
+        </div>
+      </aside>
     </div>
   );
 }

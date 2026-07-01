@@ -91,14 +91,14 @@ export default function MaterialDetail({ project }) {
   return (
     <div className="space-y-6">
       {/* Breadcrumb Header */}
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-start gap-3">
         <button 
           onClick={() => navigate(`/project/${project.id}/materials`)}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-hairline bg-surface-card text-muted hover:bg-canvas transition-colors"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-hairline bg-surface-card text-muted hover:bg-canvas transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
         </button>
-        <div>
+        <div className="min-w-0 flex-1">
           <h2 className="text-base font-normal text-ink">{material.name}</h2>
           <p className="text-[10px] text-muted-soft font-medium">Inventory metrics, timelines, and reorder projections.</p>
         </div>

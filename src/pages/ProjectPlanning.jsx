@@ -482,12 +482,12 @@ export default function ProjectPlanning({ project, setProject }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Project Planning</h2>
           <p className="text-[10px] text-muted-soft font-medium">Define project details, phases, and baseline material plan.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="page-header-actions">
           {isEditingDetails ? (
             <button 
               onClick={handleSaveDetails}
@@ -611,7 +611,7 @@ export default function ProjectPlanning({ project, setProject }) {
 
       {/* Project Phases */}
       <div className="rounded-lg border border-hairline bg-surface-card p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="page-header mb-4">
           <h4 className="text-xs font-semibold text-ink">Project Phases</h4>
           <button 
             onClick={() => setShowAddPhase(true)}
@@ -651,7 +651,7 @@ export default function ProjectPlanning({ project, setProject }) {
                   </div>
                 </div>
                 <h5 className="mt-2 text-xs font-semibold text-ink">{ph.name}</h5>
-                <div className="mt-4 grid grid-cols-3 gap-2 border-t border-hairline-soft pt-3 text-[10px] font-semibold text-muted">
+                <div className="mt-4 grid grid-cols-1 gap-2 border-t border-hairline-soft pt-3 text-[10px] font-semibold text-muted sm:grid-cols-3">
                   <div>
                     <p className="text-[8px] text-muted-soft">Target Area</p>
                     <p className="mt-0.5 text-ink">{ph.targetArea}</p>
@@ -940,7 +940,7 @@ export default function ProjectPlanning({ project, setProject }) {
                 />
               </div>
 
-              <div className={phases.length > 0 ? "block" : "grid grid-cols-2 gap-3.5"}>
+              <div className={phases.length > 0 ? "block" : "form-grid-2"}>
                 <div className={phases.length > 0 ? "mb-3.5" : ""}>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Unit</label>
                   <select
@@ -1062,7 +1062,7 @@ export default function ProjectPlanning({ project, setProject }) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Duration</label>
                   <input 
@@ -1151,7 +1151,7 @@ export default function ProjectPlanning({ project, setProject }) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Duration</label>
                   <input 

@@ -92,7 +92,7 @@ export default function Inventory({ project }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Inventory Management</h2>
           <p className="text-[10px] text-muted-soft font-medium">Monitor active warehouse balances and material issue history logs.</p>
@@ -266,7 +266,7 @@ export default function Inventory({ project }) {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Transaction Type</label>
                   <select

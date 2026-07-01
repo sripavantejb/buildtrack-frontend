@@ -117,6 +117,7 @@
     line-height: theme('fontSize.display-sm[1].lineHeight');
     letter-spacing: theme('fontSize.display-sm[1].letterSpacing');
     font-weight: 400;
+    @apply text-lg sm:text-[22px];
   }
 
   .page-subtitle {
@@ -127,6 +128,30 @@
   .section-label {
     color: theme('colors.muted');
     @apply text-[11px] font-semibold uppercase tracking-wider;
+  }
+
+  .page-header {
+    @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .page-header-actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .form-grid-2 {
+    @apply grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4;
+  }
+
+  .table-scroll {
+    @apply -mx-1 overflow-x-auto px-1;
+  }
+
+  .kanban-board {
+    @apply flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-5 md:overflow-visible;
+  }
+
+  .kanban-column {
+    @apply min-w-[260px] shrink-0 md:min-w-0 md:shrink;
   }
 }
 

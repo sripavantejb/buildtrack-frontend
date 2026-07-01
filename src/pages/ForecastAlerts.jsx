@@ -92,12 +92,12 @@ export default function ForecastAlerts({ project }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Forecast & Predictive Alerts</h2>
           <p className="text-[10px] text-muted-soft font-medium">Automatic system forecasts on stock levels, budget, and project scheduling.</p>
         </div>
-        <div className="flex items-center gap-1.5 rounded-lg bg-canvas-soft border border-hairline px-3 py-1.5 text-[10px] font-bold text-primary">
+        <div className="flex items-center gap-1.5 rounded-lg bg-canvas-soft border border-hairline px-3 py-1.5 text-[10px] font-bold text-primary shrink-0">
           <Zap className="h-3.5 w-3.5 fill-timeline-edit" />
           <span>AI Insights Active</span>
         </div>

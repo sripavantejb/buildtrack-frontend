@@ -138,7 +138,7 @@ export default function SettingsPage({ project, setProject }) {
       </div>
 
       {/* Tabs Menu */}
-      <div className="flex border-b border-hairline text-xs font-bold text-muted-soft gap-6">
+      <div className="flex overflow-x-auto border-b border-hairline text-xs font-bold text-muted-soft gap-4 sm:gap-6">
         <button 
           type="button"
           onClick={() => setActiveTab('project')}
@@ -169,7 +169,7 @@ export default function SettingsPage({ project, setProject }) {
         </button>
       </div>
 
-      <form onSubmit={handleSaveSettings} className="space-y-6 max-w-2xl">
+      <form onSubmit={handleSaveSettings} className="space-y-6 w-full max-w-2xl">
         
         {/* Success Notice */}
         {success && (

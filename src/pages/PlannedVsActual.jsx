@@ -115,7 +115,7 @@ export default function PlannedVsActual({ project }) {
 
       {/* Tabs list */}
       <div className="border-b border-hairline">
-        <div className="flex gap-6 -mb-px text-xs font-semibold">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-4 -mb-px text-xs font-semibold overflow-x-auto">
           <button 
             onClick={() => setActiveTab('materials')}
             className={`pb-3 border-b-2 transition-colors ${activeTab === 'materials' ? 'border-primary text-primary' : 'border-transparent text-muted-soft hover:text-body'}`}
@@ -144,7 +144,7 @@ export default function PlannedVsActual({ project }) {
                 {/* Info block */}
                 <div className="flex-1">
                   <h4 className="text-xs font-semibold text-ink">{mat.name}</h4>
-                  <div className="mt-1.5 flex items-center gap-4 text-[10px] font-semibold text-muted-soft">
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-semibold text-muted-soft">
                     <div>Planned Qty: <span className="text-ink">{mat.planned.toLocaleString()} {mat.unit}</span></div>
                     <div>Actual Qty: <span className="text-ink">{mat.purchased.toLocaleString()} {mat.unit}</span></div>
                   </div>

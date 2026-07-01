@@ -90,7 +90,7 @@ export default function Reports({ project }) {
         </div>
         
         {/* Export Action Triggers */}
-        <div className="flex items-center gap-2">
+        <div className="page-header-actions print:hidden">
           <button 
             onClick={handleExportExcel}
             className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3.5 py-1.5 text-xs font-bold text-body hover:bg-canvas transition-colors"

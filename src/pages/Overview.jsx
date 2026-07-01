@@ -155,7 +155,7 @@ export default function Overview({ project }) {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Budget Progress Area Chart */}
         <div className="lg:col-span-2 rounded-lg border border-hairline bg-surface-card p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
               <h4 className="text-xs font-semibold text-ink">Budget Progress</h4>
               <p className="text-[9px] text-muted-soft font-semibold mt-0.5">Cumulative Planned vs Actual expenses over time</p>
@@ -242,7 +242,7 @@ export default function Overview({ project }) {
 
       {/* Alerts and Warnings Panel */}
       <div className="rounded-lg border border-hairline bg-surface-card p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
             <h4 className="text-xs font-semibold text-ink">Alerts & Notifications</h4>
             <p className="text-[9px] text-muted-soft font-semibold mt-0.5">Critical anomalies and milestones detected automatically</p>

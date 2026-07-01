@@ -130,7 +130,7 @@ export default function BudgetPlanning({ project }) {
 
       {/* Categories Allocations Grid */}
       <div className="rounded-lg border border-hairline bg-surface-card p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
             <h4 className="text-xs font-semibold text-ink">Financial Categories</h4>
             <p className="text-[9px] text-muted-soft font-semibold mt-0.5">High level cost divisions baseline and adjustments</p>

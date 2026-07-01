@@ -149,25 +149,27 @@ export default function Procurement({ project }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Procurement Workflow</h2>
           <p className="text-[10px] text-muted-soft font-medium">Coordinate orders and verify supplier deliveries through visual columns.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="page-header-actions">
           <button 
             onClick={() => setShowPageHistoryModal(true)}
             className="flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-card px-3.5 py-1.5 text-xs font-semibold text-ink hover:bg-canvas transition-colors"
           >
             <Clock className="h-4 w-4 text-muted" />
-            <span>Workflow History</span>
+            <span className="hidden sm:inline">Workflow History</span>
+            <span className="sm:hidden">History</span>
           </button>
           <button 
             onClick={() => setShowAddModal(true)}
             className="flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-white hover:bg-primary-active transition-colors"
           >
             <Plus className="h-4 w-4" />
-            <span>New Requisition</span>
+            <span className="hidden sm:inline">New Requisition</span>
+            <span className="sm:hidden">New</span>
           </button>
         </div>
       </div>
@@ -178,13 +180,13 @@ export default function Procurement({ project }) {
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-5 overflow-x-auto min-h-[480px] pb-4">
+        <div className="kanban-board min-h-[480px]">
           {columns.map((col) => {
             const colItems = requests.filter(r => r.status === col.id);
             return (
               <div 
                 key={col.id} 
-                className={`rounded-lg border border-hairline border-t-4 ${col.color} p-4 flex flex-col min-w-[200px] h-full`}
+                className={`kanban-column rounded-lg border border-hairline border-t-4 ${col.color} p-4 flex flex-col h-full`}
               >
                 {/* Column header */}
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-hairline-soft/50">
@@ -289,7 +291,7 @@ export default function Procurement({ project }) {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Quantity</label>
                   <input 

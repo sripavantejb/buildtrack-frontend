@@ -189,7 +189,7 @@ export default function DailyTracking({ project }) {
     <div className="space-y-6">
       
       {/* Title */}
-      <div className="flex items-center justify-between">
+      <div className="page-header">
         <div>
           <h2 className="text-base font-normal text-ink">Daily Tracking</h2>
           <p className="text-[10px] text-muted-soft font-medium">Record site operations and daily material consumption logs.</p>
@@ -412,7 +412,7 @@ export default function DailyTracking({ project }) {
             <h3 className="text-sm font-semibold text-ink">Add Daily Site Entry</h3>
             
             <form onSubmit={handleCreateEntry} className="mt-4 space-y-3.5">
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Today's Cost (₹)</label>
                   <input 
@@ -437,7 +437,7 @@ export default function DailyTracking({ project }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3.5">
+              <div className="form-grid-2">
                 <div>
                   <label className="block text-[10px] font-semibold text-ink mb-1">Work progress (%)</label>
                   <input 
@@ -470,7 +470,7 @@ export default function DailyTracking({ project }) {
                 {/* Area-Wise Cement Inputs Grid */}
                 <div className="mb-4 bg-canvas/50 rounded-lg p-3 border border-hairline">
                   <h5 className="text-[9px] font-bold text-muted uppercase mb-2">Cement Distribution (Bags)</h5>
-                  <div className="grid grid-cols-2 gap-3.5">
+                  <div className="form-grid-2">
                     <div>
                       <label className="block text-[8px] font-semibold text-body mb-1">Block A</label>
                       <input 
@@ -514,7 +514,7 @@ export default function DailyTracking({ project }) {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   <div>
                     <label className="block text-[9px] font-semibold text-body mb-1">Steel (Tons)</label>
                     <input 

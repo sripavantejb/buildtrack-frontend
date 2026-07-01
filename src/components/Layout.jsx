@@ -32,6 +32,10 @@ export default function Layout({ children, project, setProject }) {
   const user = api.getCurrentUser() || { name: 'Arjun Reddy', role: 'Administrator', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150' };
 
   useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (project?.id) {
       const fetchAlerts = async () => {
         try {
@@ -192,8 +196,8 @@ export default function Layout({ children, project, setProject }) {
       {/* Main Content Area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-hairline bg-surface-card px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-hairline bg-surface-card px-3 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 flex-1 items-center">
             {/* Mobile hamburger menu button */}
             <button 
               onClick={() => setSidebarOpen(true)}
@@ -207,7 +211,7 @@ export default function Layout({ children, project, setProject }) {
             {project && (
               <div 
                 onClick={() => navigate('/')}
-                className="flex items-center justify-between rounded-lg border border-hairline p-2 hover:bg-canvas transition-colors cursor-pointer max-w-[240px] sm:max-w-[280px]"
+                className="flex max-w-[calc(100vw-7rem)] items-center justify-between rounded-lg border border-hairline p-2 hover:bg-canvas transition-colors cursor-pointer sm:max-w-[240px] md:max-w-[280px]"
               >
                 <div className="flex items-center gap-2 overflow-hidden">
                   <img 
@@ -224,7 +228,7 @@ export default function Layout({ children, project, setProject }) {
               </div>
             )}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
             <div className="relative">
               <button 
                 id="notifications-btn"
@@ -238,7 +242,7 @@ export default function Layout({ children, project, setProject }) {
               </button>
 
               {showNotifications && (
-                <div id="notifications-dropdown" className="absolute right-0 mt-2 z-50 w-80 rounded-xl border border-hairline bg-surface-card p-2">
+                <div id="notifications-dropdown" className="absolute right-0 mt-2 z-50 w-[min(calc(100vw-1.5rem),20rem)] rounded-xl border border-hairline bg-surface-card p-2">
                   <div className="flex items-center justify-between border-b border-hairline-soft pb-2 px-3 pt-1">
                     <h4 className="text-xs font-semibold text-ink">Notifications</h4>
                     <span className="rounded bg-canvas-soft px-1.5 py-0.5 text-[9px] font-bold text-error">
@@ -282,8 +286,8 @@ export default function Layout({ children, project, setProject }) {
                 </div>
               )}
             </div>
-            <div className="h-8 w-px bg-hairline"></div>
-            <div className="text-right">
+            <div className="hidden h-8 w-px bg-hairline md:block"></div>
+            <div className="hidden text-right md:block">
               <p className="text-xs font-semibold text-ink">{user.name}</p>
               <p className="text-[10px] text-muted-soft font-medium">{project?.location}</p>
             </div>
